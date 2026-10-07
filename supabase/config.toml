@@ -1,0 +1,35 @@
+# Supabase local / project config
+# Public Edge Functions accept the anon key (or no JWT for OAuth redirect).
+
+[functions.availability]
+verify_jwt = false
+
+[functions.create-booking]
+verify_jwt = false
+
+[functions.create-checkout]
+verify_jwt = false
+
+[functions.create-service-checkout]
+verify_jwt = false
+
+[functions.google-oauth-start]
+verify_jwt = false
+
+[functions.google-oauth-callback]
+verify_jwt = false
+
+[functions.sync-busy]
+verify_jwt = false
+
+[functions.admin-status]
+verify_jwt = false
+
+[functions.site-content]
+verify_jwt = false
+
+[functions.notify-sms]
+verify_jwt = false
+
+[functions.sync-reel-views]
+verify_jwt = false

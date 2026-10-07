@@ -1,0 +1,6 @@
+{
+  "private": true,
+  "scripts": {
+    "build": "node -e \"console.log('Static HTML site — nothing to compile.')\""
+  }
+}

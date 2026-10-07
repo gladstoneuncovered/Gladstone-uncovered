@@ -1,0 +1,17 @@
+# Local / secret files — never commit
+supabase/.env
+supabase/.temp
+.env
+.env.local
+.env*
+.DS_Store
+.vercel
+node_modules
+
+# Local tooling, archives, and duplicate deploy copies
+.tools/
+Homevid
+Homevid/
+deploy-temp/
+vercel-drop/
+*.zip

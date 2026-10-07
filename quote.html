@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Instant quote — Gladstone Uncovered</title>
+    <meta
+      name="description"
+      content="Build an instant quote for Gladstone Uncovered real estate photography, then book and pay securely with Stripe."
+    />
+    <link rel="stylesheet" href="css/styles.css?v=115" />
+  </head>
+  <body class="site-apple page-quote">
+    <header class="site-header">
+      <nav class="nav" aria-label="Primary">
+        <a class="logo" href="index.html" aria-label="Gladstone Uncovered, home">
+          <img src="images/logo.png" alt="" width="156" height="62" />
+        </a>
+        <ul class="nav-links">
+          <li><a href="index.html#about">About</a></li>
+          <li><a href="index.html#services">Services</a></li>
+          <li><a href="pricing.html">Pricing</a></li>
+          <li><a class="nav-quote" href="index.html#quote">Build a quote</a></li>
+        </ul>
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-label="Open menu">
+          <span></span>
+        </button>
+      </nav>
+    </header>
+
+    <main>
+      <section class="page-hero">
+        <div class="page-hero-inner">
+          <p class="eyebrow">Instant quote</p>
+          <h1 data-quote-title>Real Estate Photography</h1>
+          <p>
+            Choose location, property type and any add-ons. Your estimate updates
+            live — then book and pay securely.
+          </p>
+        </div>
+      </section>
+
+      <section class="section section-muted">
+        <div class="section-inner quote-layout" data-quote data-package="real-estate">
+          <div class="quote-builder">
+            <div data-quote-sections></div>
+
+            <div class="quote-summary" id="quote-summary">
+              <h2>4. Your estimated quote</h2>
+              <p class="quote-hint" data-quote-hint>
+                Select your location and property type to calculate your estimate.
+              </p>
+              <div class="quote-total-row">
+                <span>Estimated total</span>
+                <strong data-quote-total>—</strong>
+              </div>
+              <div class="quote-breakdown" data-quote-breakdown></div>
+              <div class="quote-actions">
+                <button type="button" class="btn btn-dark" data-quote-book disabled>
+                  Book now
+                </button>
+                <button type="button" class="btn btn-outline" data-quote-enquire hidden>
+                  Send enquiry
+                </button>
+              </div>
+              <p class="quote-status" data-quote-status role="status"></p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <a class="logo" href="index.html" aria-label="Gladstone Uncovered, home">
+          <img src="images/logo.png" alt="" width="156" height="62" />
+        </a>
+        <p class="footer-brand-line">Uncover a different perspective.</p>
+      </div>
+    </footer>
+    <script src="js/config.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/quote-data.js"></script>
+    <script src="js/quote.js"></script>
+  </body>
+</html>

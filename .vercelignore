@@ -1,0 +1,13 @@
+.git
+.vercel
+.tools
+supabase
+deploy-temp
+vercel-drop
+Homevid
+data
+*.zip
+*.md
+.DS_Store
+.env
+.env.*

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Something Else? — Gladstone Uncovered</title>
+    <meta
+      name="description"
+      content="Have something different in mind? Tell us your idea and we’ll uncover what we can create."
+    />
+    <link rel="stylesheet" href="../../css/styles.css?v=163" />
+  </head>
+  <body class="site-apple page-home page-service">
+    <div data-service-chrome="header"></div>
+
+    <main>
+      <section class="service-hero service-hero--invite" aria-label="Something Else">
+        <p class="service-hero-kicker">Something Else?</p>
+        <div class="service-hero-grid">
+          <h1 class="service-hero-statement">Got something<br>else in mind?</h1>
+          <div class="service-hero-meta">
+            <a class="apple-btn apple-btn--fill" href="#quote">Tell us your idea →</a>
+          </div>
+        </div>
+        <div class="service-hero-support">
+          <p class="service-hero-line" data-copy="service.something-else.note.0">
+            Not every idea fits neatly into a package.
+          </p>
+          <p class="service-hero-line" data-copy="service.something-else.note.1">
+            If you have an event, project, location or idea that isn’t covered by our existing services, tell us what you’re thinking. We’ll work with you to see what’s possible.
+          </p>
+        </div>
+      </section>
+
+      <section class="slim-quote" id="quote" aria-label="Tell us your idea">
+        <div class="slim-quote-panel slim-quote-panel--enquire">
+          <div class="slim-quote-head">
+            <h2 data-copy="service.something-else.enquire.title">Tell us your idea.</h2>
+          </div>
+          <form
+            class="slim-group slim-quote-form"
+            data-contact-form
+            data-contact-source="Something Else"
+            data-contact-subject="Something Else — Gladstone Uncovered"
+            novalidate
+          >
+            <div class="slim-fields">
+              <input name="name" type="text" autocomplete="name" placeholder="Name" aria-label="Name" required />
+              <input name="email" type="email" autocomplete="email" placeholder="Email" aria-label="Email" required />
+              <input name="phone" type="tel" autocomplete="tel" placeholder="Phone (optional)" aria-label="Phone (optional)" />
+            </div>
+            <label class="slim-more">
+              <span class="sr-only">Your idea</span>
+              <textarea name="message" rows="5" placeholder="What are you thinking?" required></textarea>
+            </label>
+            <div class="slim-send-row">
+              <button class="apple-btn apple-btn--fill slim-send" type="submit">Send enquiry →</button>
+            </div>
+            <p class="slim-error" data-contact-error role="alert"></p>
+            <p class="slim-success" data-contact-success role="status"></p>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <div data-service-chrome="footer"></div>
+    <div data-service-chrome="enquire"></div>
+
+    <script src="../../js/service-chrome.js?v=1"></script>
+    <script src="../../js/config.js?v=2"></script>
+    <script src="../../js/site-content.js?v=2"></script>
+    <script src="../../js/contact-form.js?v=4"></script>
+    <script src="../../js/main.js?v=17"></script>
+  </body>
+</html>
