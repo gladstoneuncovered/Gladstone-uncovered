@@ -6024,7 +6024,7 @@ body.page-home .home-films-grid {
 body.page-home .home-film {
   width: 100%;
   height: auto;
-  aspect-ratio: 1 / 1.05;
+  aspect-ratio: 16 / 9;
   border-radius: 28px;
   align-items: flex-start;
   background: #000;
@@ -7268,7 +7268,7 @@ body:not(.page-home) .slim-quote {
   }
 
   body.page-home .home-film {
-    aspect-ratio: 4 / 5;
+    aspect-ratio: 16 / 9;
   }
 
   body.page-home.page-service .service-stage .home-film,
@@ -7736,7 +7736,7 @@ body.site-apple.page-home:not(.page-service) .home-films-grid {
   display: grid;
   grid-template-columns: none;
   grid-auto-flow: column;
-  grid-auto-columns: calc((100% - 12px) / 2.2);
+  grid-auto-columns: calc((100% - 12px) / 1.45);
   justify-items: stretch;
   gap: 12px;
   overflow-x: auto;
@@ -7760,7 +7760,7 @@ body.site-apple.page-home .home-films-grid {
 }
 
 body.site-apple.page-home .home-film {
-  aspect-ratio: 4 / 5;
+  aspect-ratio: 16 / 9;
   min-height: 0;
   overflow: hidden;
   border-radius: var(--site-radius);
@@ -9101,7 +9101,7 @@ body.site-apple .social a:hover {
 
 @media (max-width: 734px) {
   body.site-apple.page-home:not(.page-service) .home-films-grid {
-    grid-auto-columns: 82%;
+    grid-auto-columns: 88%;
   }
 
   body.site-apple.page-home:not(.page-service) .home-films-grid .home-film {
@@ -9109,8 +9109,28 @@ body.site-apple .social a:hover {
     top: auto;
     height: auto;
     max-height: none;
-    aspect-ratio: 4 / 5;
+    aspect-ratio: 3 / 2;
     margin: 0;
+  }
+
+  body.site-apple.page-home:not(.page-service) .home-films-grid .home-film-copy {
+    right: 1rem;
+    bottom: 1rem;
+    left: 1rem;
+    gap: 0.28rem;
+  }
+
+  body.site-apple.page-home:not(.page-service) .home-films-grid .home-film-title {
+    font-size: clamp(1.55rem, 8cqi, 2.1rem);
+  }
+
+  body.site-apple.page-home:not(.page-service) .home-films-grid .home-film-line {
+    margin-top: 0.1rem;
+    font-size: 0.92rem;
+  }
+
+  body.site-apple.page-home:not(.page-service) .home-films-grid .home-film .apple-actions {
+    margin-top: 0.45rem;
   }
 
   body.site-apple.page-home:not(.page-service) .slim-quote {
