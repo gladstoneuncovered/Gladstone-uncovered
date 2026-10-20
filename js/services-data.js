@@ -19,7 +19,7 @@ window.GLADSTONE_SERVICES = [
     title: "Aerial Inspections",
     price: "Starting at $150",
     description: [
-      "Get a Clearer Look Without the Climb. A visual record of roofs, solar arrays and other hard to reach structures, without unnecessary access at height.",
+      "Get a clearer look without the climb. A visual record of roofs, solar arrays and other hard to reach structures, without unnecessary access at height.",
     ],
     href: "/services/drone-inspections",
   },

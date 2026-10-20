@@ -206,6 +206,8 @@
           "More of everything.",
         "home.card.real-estate-drone-photography.line":
           "A perspective you won’t get from the street.",
+        "home.card.drone-inspections.line":
+          "Get a clearer look without the climb.",
         "service.event-highlights.title": "Highlights",
         "service.event-highlights.line": "Let them see what they missed.",
         "service.event-highlights.note.0":
@@ -217,6 +219,8 @@
           "More of everything.",
         "service.real-estate-drone-photography.line":
           "A perspective you won’t get from the street.",
+        "service.drone-inspections.line":
+          "Get a clearer look without the climb.",
         "quote.event-highlights.title": "Highlights",
         "quote.event-highlights.summary": "Let them see what they missed.",
         "quote.event-highlights.baseLabel": "Highlights",
@@ -226,6 +230,8 @@
         "quote.full-day-event-coverage.baseLabel": "The Big One",
         "quote.real-estate-drone-photography.summary":
           "A perspective you won’t get from the street.",
+        "quote.drone-inspections.summary":
+          "Get a clearer look without the climb.",
       });
       Object.keys(copy).forEach((key) => {
         if (typeof copy[key] === "string" && copy[key].includes("Fly Over")) {

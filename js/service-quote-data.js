@@ -369,7 +369,7 @@ window.GLADSTONE_SERVICE_QUOTES = [
     id: "drone-inspections",
     title: "Aerial Inspections",
     summary:
-      "Get a Clearer Look Without the Climb",
+      "Get a clearer look without the climb.",
     teaser: "Photos and video · Nominated areas",
     baseLabel: "Visual inspection",
     baseDetail: "Photographs and video",
