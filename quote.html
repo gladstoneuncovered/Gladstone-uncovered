@@ -8,7 +8,7 @@
       name="description"
       content="Build an instant quote for Gladstone Uncovered real estate photography, then book and pay securely with Stripe."
     />
-    <link rel="stylesheet" href="css/styles.css?v=115" />
+    <link rel="stylesheet" href="css/styles.css?v=191" />
   </head>
   <body class="site-apple page-quote">
     <header class="site-header">
@@ -72,13 +72,36 @@
 
     <footer class="site-footer">
       <div class="footer-inner">
-        <a class="logo" href="index.html" aria-label="Gladstone Uncovered, home">
-          <img src="images/logo.png" alt="" width="156" height="62" />
-        </a>
         <p class="footer-brand-line">Uncover a different perspective.</p>
+        <nav class="footer-actions" aria-label="Footer">
+          <button type="button" class="footer-pill" data-enquire-open>Contact</button>
+          <a class="footer-pill" href="index.html#quote">Quote</a>
+          <a class="footer-pill" href="more-info.html">More info</a>
+        </nav>
       </div>
     </footer>
+    <dialog class="enquire-dialog" data-enquire-dialog aria-labelledby="enquire-title">
+      <button type="button" class="enquire-dialog-close" data-enquire-close aria-label="Close">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </button>
+      <h2 id="enquire-title">Send a message.</h2>
+      <p class="enquire-dialog-note">Tell us what you need and we’ll get back to you.</p>
+      <form class="home-enquire-form" data-contact-form data-contact-source="the website" data-contact-subject="Enquiry — Gladstone Uncovered" novalidate>
+        <div class="home-enquire-fields">
+          <input name="name" type="text" autocomplete="name" placeholder="Name" aria-label="Name" required />
+          <input name="email" type="email" autocomplete="email" placeholder="Email" aria-label="Email" required />
+        </div>
+        <label class="home-enquire-message">
+          <span class="sr-only">Message</span>
+          <textarea name="message" rows="3" placeholder="What do you need?" required></textarea>
+        </label>
+        <button class="home-enquire-send" type="submit">Send</button>
+        <p class="home-enquire-error" data-contact-error role="alert"></p>
+        <p class="home-enquire-success" data-contact-success role="status"></p>
+      </form>
+    </dialog>
     <script src="js/config.js"></script>
+    <script src="js/contact-form.js?v=4"></script>
     <script src="js/main.js"></script>
     <script src="js/quote-data.js"></script>
     <script src="js/quote.js"></script>

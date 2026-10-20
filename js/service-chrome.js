@@ -20,15 +20,12 @@
     </header>`,
     footer: `<footer class="site-footer">
       <div class="footer-inner">
-        <a class="logo" href="${home}" aria-label="Gladstone Uncovered, home">
-          <img src="${logo}" alt="" width="156" height="62" />
-        </a>
-        <ul class="social" aria-label="Connect">
-          <li><a href="https://www.facebook.com/profile.php?id=61590653819104" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 9h3V6h-3c-2.2 0-4 1.8-4 4v2H8v3h2v7h3v-7h2.6l.4-3H13v-2c0-.6.4-1 1-1z"/></svg></a></li>
-          <li><a href="mailto:admin@gladstoneuncovered.com" aria-label="Email"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 4H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V6a2 2 0 00-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></a></li>
-          <li><a href="${home}#services" aria-label="Services"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h6v6H4V4zm10 0h6v6h-6V4zM4 14h6v6H4v-6zm10 0h6v6h-6v-6z"/></svg></a></li>
-        </ul>
         <p class="footer-brand-line" data-copy="footer.line">Uncover a different perspective.</p>
+        <nav class="footer-actions" aria-label="Footer">
+          <button type="button" class="footer-pill" data-enquire-open>Contact</button>
+          <a class="footer-pill" href="${home}#quote">Quote</a>
+          <a class="footer-pill" href="${root}more-info.html">More info</a>
+        </nav>
       </div>
     </footer>`,
     enquire: `<dialog class="enquire-dialog" data-enquire-dialog aria-labelledby="enquire-title">

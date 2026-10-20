@@ -9,11 +9,16 @@
     maximumFractionDigits: 0,
   });
 
+  const homeMount = root.parentElement;
+  const quoteSheet = document.querySelector("[data-quote-sheet]");
+  const quoteSheetSlot = quoteSheet && quoteSheet.querySelector("[data-quote-sheet-slot]");
   const lockedId = (root.getAttribute("data-slim-quote") || "").trim();
   let pack = packages.find((item) => item.id === lockedId) || null;
   let previewId = pack ? pack.id : packages[0].id;
   const floor = pack ? 1 : 0;
   let page = floor;
+  let cardHost = null;
+  let sheetClosing = false;
   const selected = {};
   const quantities = {};
   const extras = {};
@@ -26,6 +31,151 @@
 
   function isServicePage() {
     return document.body.classList.contains("page-service");
+  }
+
+  function isCardMode() {
+    return Boolean(cardHost);
+  }
+
+  function quoteFloor() {
+    if (lockedId) return 1;
+    if (cardHost === quoteSheet) return 0;
+    if (isCardMode() && pack) return 1;
+    return 0;
+  }
+
+  function setCardHitEnabled(card, enabled) {
+    const hit = card && card.querySelector(".home-film-hit");
+    if (!hit) return;
+    if (enabled) hit.removeAttribute("inert");
+    else hit.setAttribute("inert", "");
+  }
+
+  function closeCardQuote(options) {
+    if (sheetClosing) return;
+    if (!cardHost && !(quoteSheet && quoteSheet.open)) return;
+    sheetClosing = true;
+    rememberEnquire();
+    rememberFields();
+    const card = cardHost;
+    const trigger = card && card.querySelector("[data-card-quote]");
+    if (card) {
+      card.classList.remove("is-quoting", "is-quote-long");
+      setCardHitEnabled(card, true);
+    }
+    if (trigger) trigger.setAttribute("aria-expanded", "false");
+    if (homeMount) homeMount.appendChild(root);
+    document.body.classList.remove("has-card-quote");
+    if (quoteSheet && quoteSheet.open && !(options && options.fromDialog)) {
+      quoteSheet.close();
+    }
+    cardHost = null;
+    if (!lockedId) {
+      pack = null;
+      page = 0;
+      previewId = packages[0].id;
+      Object.keys(selected).forEach((key) => delete selected[key]);
+      Object.keys(quantities).forEach((key) => delete quantities[key]);
+      Object.keys(extras).forEach((key) => delete extras[key]);
+      sent = false;
+      overviewOpen = false;
+    }
+    sheetClosing = false;
+    if (!options || !options.silent) render();
+  }
+
+  function openCardQuote(card, id) {
+    if (!card || !id) return;
+    const sameCard = cardHost === card;
+    const sameService =
+      (id === SOMETHING_ELSE && !pack && previewId === SOMETHING_ELSE) ||
+      (pack && pack.id === id);
+    if (sameCard && sameService && quoteSheet && quoteSheet.open) return;
+    if (cardHost) closeCardQuote({ silent: true });
+    const mount = quoteSheetSlot || card.querySelector("[data-film-quote-slot]");
+    if (!mount) return;
+    cardHost = card;
+    const trigger = card.querySelector("[data-card-quote]");
+    if (trigger) trigger.setAttribute("aria-expanded", "true");
+    document.body.classList.add("has-card-quote");
+    mount.hidden = false;
+    mount.appendChild(root);
+    if (quoteSheet && typeof quoteSheet.showModal === "function" && !quoteSheet.open) {
+      quoteSheet.showModal();
+    }
+    if (id === SOMETHING_ELSE) {
+      pack = null;
+      previewId = SOMETHING_ELSE;
+      page = 0;
+      sent = false;
+      overviewOpen = false;
+      render();
+      return;
+    }
+    chooseService(id);
+  }
+
+  function pickerPackages() {
+    const order = [
+      "full-day-event-coverage",
+      "event-highlights",
+      "aerial-video",
+      "real-estate-drone-photography",
+      "drone-inspections",
+    ];
+    const ranked = order
+      .map((id) => packages.find((item) => item.id === id))
+      .filter(Boolean);
+    packages.forEach((item) => {
+      if (!ranked.includes(item)) ranked.push(item);
+    });
+    return ranked;
+  }
+
+  function resetBuilder() {
+    pack = null;
+    page = 0;
+    previewId = packages[0] ? packages[0].id : "";
+    Object.keys(selected).forEach((key) => delete selected[key]);
+    Object.keys(quantities).forEach((key) => delete quantities[key]);
+    Object.keys(extras).forEach((key) => delete extras[key]);
+    sent = false;
+    overviewOpen = false;
+  }
+
+  function openQuotePicker() {
+    if (!quoteSheet || !quoteSheetSlot || lockedId) return;
+    if (cardHost === quoteSheet && quoteSheet.open) return;
+    if (cardHost) closeCardQuote({ silent: true });
+    resetBuilder();
+    cardHost = quoteSheet;
+    document.body.classList.add("has-card-quote");
+    quoteSheetSlot.hidden = false;
+    quoteSheetSlot.appendChild(root);
+    render();
+    if (typeof quoteSheet.showModal === "function" && !quoteSheet.open) {
+      quoteSheet.showModal();
+    }
+  }
+
+  function filmServicePicker() {
+    const choices = pickerPackages()
+      .map((item) => {
+        const price =
+          typeof item.basePriceCents === "number" ? `From ${formatMoney(item.basePriceCents)}` : "";
+        return `<button type="button" class="film-quote-choice" data-service="${escapeHtml(item.id)}">
+          <span class="film-quote-choice-label">${escapeHtml(item.title)}</span>
+          ${price ? `<span class="slim-pill-price">${escapeHtml(price)}</span>` : ""}
+        </button>`;
+      })
+      .join("");
+    const other = `<button type="button" class="film-quote-choice" data-enquire><span class="film-quote-choice-label">${escapeHtml(
+      copy("quote.chrome.somethingElse", "Something Else?")
+    )}</span></button>`;
+    return `<p class="film-quote-ask">${escapeHtml(
+      copy("quote.chrome.chooseService", "Choose a service.")
+    )}</p>
+      <div class="film-quote-choices is-cols-2">${choices}${other}</div>`;
   }
 
   function copy(key, fallback) {
@@ -191,6 +341,18 @@
       : "";
   }
 
+  function pillPrice(step, option) {
+    if (step.acknowledge || option.included) return "";
+    const price =
+      option.note ||
+      (typeof option.priceCents === "number"
+        ? formatMoney(option.priceCents)
+        : option.confirm
+          ? copy("quote.chrome.confirm", "Price confirmed")
+          : "");
+    return price ? `<span class="slim-pill-price">${escapeHtml(price)}</span>` : "";
+  }
+
   function renderOption(step, option) {
     if (isHidden(step, option)) return "";
     const chosen = selectionList(step).includes(option.id);
@@ -207,13 +369,14 @@
         : "";
     const extra =
       chosen && option.input
-        ? `<div class="slim-extra">
+        ? `<div class="slim-extra slim-pill-extra">
             <input type="text" data-extra="${escapeHtml(step.id)}" value="${escapeHtml(extras[step.id] || "")}" placeholder="${escapeHtml(option.inputLabel || "Details")}" aria-label="${escapeHtml(option.inputLabel || "Details")}" />
           </div>`
         : "";
     const detail = infoText(option, qty);
-    return `<div class="slim-line">
-      <div class="slim-row${step.acknowledge ? " is-ack" : ""}${chosen ? " is-selected" : ""}${locked ? " is-locked" : ""}">
+    if (step.acknowledge) {
+      return `<div class="slim-line">
+      <div class="slim-row is-ack${chosen ? " is-selected" : ""}${locked ? " is-locked" : ""}">
         <button type="button" class="slim-pick" data-step="${escapeHtml(step.id)}" data-option="${escapeHtml(option.id)}"${locked ? " disabled" : ""}>
           <span class="slim-option-copy">
             <span class="slim-label">${escapeHtml(option.label)}</span>
@@ -221,19 +384,73 @@
           </span>
           ${optionPrice(step, option)}
         </button>
-        ${stepper}
       </div>
-      ${extra}
     </div>`;
+    }
+    const pill = `<button type="button" class="slim-pill${chosen ? " is-selected" : ""}${
+      locked ? " is-locked" : ""
+    }" data-step="${escapeHtml(step.id)}" data-option="${escapeHtml(option.id)}"${locked ? " disabled" : ""}>
+        <span class="slim-pill-label">${escapeHtml(option.label)}</span>
+        ${pillPrice(step, option)}
+      </button>`;
+    const cluster = stepper
+      ? `<span class="slim-pill-wrap${chosen ? " is-selected" : ""}">${pill}${stepper}</span>`
+      : pill;
+    return `${cluster}${extra}`;
   }
 
-  function renderGroup(title, hint, rows, stepLabel) {
+  function renderFilmChoice(step, option) {
+    if (isHidden(step, option)) return "";
+    if (step.acknowledge) return renderOption(step, option);
+    const chosen = selectionList(step).includes(option.id);
+    const locked = isLocked(step, option);
+    const qty = chosen && option.quantity ? quantityOf(step, option.id) : 1;
+    const max = option.max || 12;
+    const stepper =
+      chosen && option.quantity
+        ? `<span class="slim-qty">
+            <button type="button" data-qty="down" data-step="${escapeHtml(step.id)}" data-qty-option="${escapeHtml(option.id)}" aria-label="Fewer ${escapeHtml(option.label)}"${qty <= 1 ? " disabled" : ""}>−</button>
+            <span>${qty}</span>
+            <button type="button" data-qty="up" data-step="${escapeHtml(step.id)}" data-qty-option="${escapeHtml(option.id)}" aria-label="More ${escapeHtml(option.label)}"${qty >= max ? " disabled" : ""}>+</button>
+          </span>`
+        : "";
+    const extra =
+      chosen && option.input
+        ? `<div class="slim-extra film-quote-extra">
+            <input type="text" data-extra="${escapeHtml(step.id)}" value="${escapeHtml(extras[step.id] || "")}" placeholder="${escapeHtml(option.inputLabel || "Details")}" aria-label="${escapeHtml(option.inputLabel || "Details")}" />
+          </div>`
+        : "";
+    const tile = `<button type="button" class="film-quote-choice${chosen ? " is-selected" : ""}${
+      locked ? " is-locked" : ""
+    }" data-step="${escapeHtml(step.id)}" data-option="${escapeHtml(option.id)}"${locked ? " disabled" : ""}>
+        <span class="film-quote-choice-label">${escapeHtml(option.label)}</span>
+        ${pillPrice(step, option)}
+      </button>`;
+    const cluster = stepper
+      ? `<span class="film-quote-choice-wrap${chosen ? " is-selected" : ""}">${tile}${stepper}</span>`
+      : tile;
+    return `${cluster}${extra}`;
+  }
+
+  function filmIncludes() {
+    if (!pack) return "";
+    const points = Array.isArray(pack.overview) ? pack.overview : [];
+    if (!points.length) {
+      return pack.teaser ? `<p class="film-quote-teaser">${escapeHtml(pack.teaser)}</p>` : "";
+    }
+    return `<ul class="film-quote-includes">${points
+      .slice(0, 4)
+      .map((point) => `<li>${escapeHtml(point)}</li>`)
+      .join("")}</ul>`;
+  }
+
+  function renderGroup(title, hint, rows, stepLabel, variant) {
     return `<section class="slim-group">
       ${stepLabel ? `<p class="slim-step-index">${escapeHtml(stepLabel)}</p>` : ""}
       <h3 class="slim-group-title"><strong>${escapeHtml(title)}.</strong>${
         hint ? ` <span>${escapeHtml(hint)}</span>` : ""
       }</h3>
-      <div class="slim-rows">${rows}</div>
+      <div class="slim-rows${variant === "pills" ? " slim-rows--pills" : ""}">${rows}</div>
     </section>`;
   }
 
@@ -252,21 +469,14 @@
     window.GLADSTONE_BIND_CONTACT_FORM(form);
   }
 
-  function enquireOverview() {
+  function enquireForm() {
     const title = copy("service.something-else.enquire.title", "Tell us your idea.");
-    const heading = copy("quote.chrome.somethingElse", "Something Else?");
-    const teaser = copy("quote.chrome.somethingElseDetail", "Have something different in mind?");
     const success = enquireSent
       ? `<p class="slim-success is-visible" data-contact-success role="status">${escapeHtml(
           copy("quote.chrome.enquirySent", "Message sent. We’ll reply to the email you entered.")
         )}</p>`
       : `<p class="slim-success" data-contact-success role="status"></p>`;
-    return `<div class="slim-overview-compact">
-      <p class="slim-overview-compact-line"><strong>${escapeHtml(heading)}</strong></p>
-      <p class="slim-overview-teaser">${escapeHtml(teaser)}</p>
-    </div>
-    <h3 class="slim-overview-title">${escapeHtml(title)}</h3>
-    <form
+    return `<form
       class="slim-quote-form slim-overview-enquire"
       data-contact-form
       data-quote-enquire
@@ -291,6 +501,18 @@
     </form>`;
   }
 
+  function enquireOverview() {
+    const title = copy("service.something-else.enquire.title", "Tell us your idea.");
+    const heading = copy("quote.chrome.somethingElse", "Something Else?");
+    const teaser = copy("quote.chrome.somethingElseDetail", "Have something different in mind?");
+    return `<div class="slim-overview-compact">
+      <p class="slim-overview-compact-line"><strong>${escapeHtml(heading)}</strong></p>
+      <p class="slim-overview-teaser">${escapeHtml(teaser)}</p>
+    </div>
+    <h3 class="slim-overview-title">${escapeHtml(title)}</h3>
+    ${enquireForm()}`;
+  }
+
   function overviewContent(item, rows) {
     const points = Array.isArray(item.overview) ? item.overview : [];
     const list = points.map((point) => `<li>${escapeHtml(point)}</li>`).join("");
@@ -298,12 +520,12 @@
       typeof item.basePriceCents === "number"
         ? `<p class="slim-overview-price"><span>${escapeHtml(copy("quote.chrome.startingFrom", "Starting from"))}</span><strong>${escapeHtml(formatMoney(item.basePriceCents))}</strong></p>`
         : "";
-    const figure = compactPrice(item, rows);
+    const figure = page <= 0 ? "" : compactPrice(item, rows);
     const compact = `<div class="slim-overview-compact">
       <p class="slim-overview-compact-line"><strong>${escapeHtml(item.title)}</strong>${
         figure ? ` — ${escapeHtml(figure)}` : ""
       }</p>
-      ${item.teaser ? `<p class="slim-overview-teaser">${escapeHtml(item.teaser)}</p>` : ""}
+      ${page > 0 && item.teaser ? `<p class="slim-overview-teaser">${escapeHtml(item.teaser)}</p>` : ""}
       ${
         list
           ? `<button type="button" class="slim-overview-toggle" data-overview-toggle aria-expanded="${
@@ -319,7 +541,7 @@
   }
 
   function renderOverview(rows) {
-    if (isServicePage()) return "";
+    if (isServicePage() || isCardMode()) return "";
     const enquirePreview = previewId === SOMETHING_ELSE;
     const item = enquirePreview
       ? null
@@ -358,8 +580,7 @@
       overview.innerHTML = overviewContent(item);
     }
     const enquireRow = root.querySelector("[data-enquire]");
-    const selectedRow = enquireRow && enquireRow.closest(".slim-row");
-    if (selectedRow) selectedRow.classList.toggle("is-selected", enquirePreview);
+    if (enquireRow) enquireRow.classList.toggle("is-selected", enquirePreview);
     if (configTop === null || !config) return;
     const shift = config.getBoundingClientRect().top - configTop;
     if (Math.abs(shift) >= 1) window.scrollBy({ top: shift, behavior: "instant" });
@@ -465,10 +686,12 @@
   }
 
   function backControl() {
-    if (page <= floor) return "";
-    return `<div class="slim-foot">
+    if (page > quoteFloor() || isCardMode()) {
+      return `<div class="slim-foot">
       <button type="button" class="slim-back" data-back>← ${escapeHtml(copy("quote.chrome.back", "Back"))}</button>
     </div>`;
+    }
+    return "";
   }
 
   function stepIndexLabel() {
@@ -488,10 +711,96 @@
       </div>`;
   }
 
+  function filmAsk(step) {
+    if (!step) return "Tell us who you are, what you need, when you need it, and where we should be.";
+    if (step.acknowledge) return "A few things to confirm";
+    if (step.type === "multi" && !step.required) return step.title;
+    return step.hint || step.title;
+  }
+
+  function nextAckOption(step) {
+    return (step.options || []).find((option) => !selectionList(step).includes(option.id)) || null;
+  }
+
+  function filmDots() {
+    if (!pack) return "";
+    const count = steps().length + 1;
+    const current = Math.min(Math.max(page, 1), count);
+    const items = Array.from({ length: count }, (_, index) => {
+      const n = index + 1;
+      const state = n < current ? " is-done" : n === current ? " is-now" : "";
+      return `<span class="film-quote-dot${state}"></span>`;
+    }).join("");
+    return `<div class="film-quote-dots" aria-hidden="true">${items}</div>`;
+  }
+
+  function filmNext() {
+    return `<button type="button" class="film-quote-next" data-next>Next</button>
+      <p class="slim-error" data-step-error role="alert"></p>`;
+  }
+
+  function filmCloseIcon() {
+    return `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>`;
+  }
+
+  function filmDetailsForm() {
+    return `<p class="film-quote-ask">Tell us who you are, what you need, when you need it, and where we should be.</p>
+      <form class="film-quote-form slim-quote-form" data-slim-form novalidate>
+        <div class="slim-fields">
+          <input name="name" type="text" autocomplete="name" placeholder="${escapeHtml(copy("quote.chrome.name", "Name"))}" aria-label="${escapeHtml(copy("quote.chrome.name", "Name"))}" required value="${escapeHtml(details.name)}" />
+          <input name="email" type="email" autocomplete="email" placeholder="${escapeHtml(copy("quote.chrome.email", "Email"))}" aria-label="${escapeHtml(copy("quote.chrome.email", "Email"))}" required value="${escapeHtml(details.email)}" />
+        </div>
+        <label class="slim-more">
+          <span class="sr-only">What you need, when, and where</span>
+          <textarea name="more" rows="4" placeholder="What you need, when, and where." required>${escapeHtml(details.more)}</textarea>
+        </label>
+        <button class="film-quote-next slim-send" type="submit"${sent ? " disabled" : ""}>${escapeHtml(
+          sent ? copy("quote.chrome.sent", "Quote sent") : "Send"
+        )}</button>
+        <p class="film-quote-note">Quotes are estimates. No booking is confirmed until a deposit is received.</p>
+        <p class="slim-error" data-slim-error role="alert"></p>
+        <p class="slim-success" data-slim-success role="status"></p>
+      </form>`;
+  }
+
+  function filmMarkup(step, rows, body, next) {
+    const picking = isCardMode() && !pack && previewId !== SOMETHING_ELSE;
+    const title = pack
+      ? pack.title
+      : picking
+        ? copy("quote.chrome.heading", "Build your package.")
+        : copy("quote.chrome.somethingElse", "Something Else?");
+    const price =
+      pack && typeof pack.basePriceCents === "number"
+        ? formatMoney(page > 0 ? totalCents(rows) : pack.basePriceCents)
+        : "";
+    const onForm = Boolean(pack && !step && page > 0);
+    const showIncludes = Boolean(pack && (!step || !step.acknowledge) && !onForm);
+    const intro = `<div class="film-quote-intro">
+        <h2>${escapeHtml(title)}</h2>
+        ${showIncludes ? filmIncludes() : pack && pack.teaser ? `<p class="film-quote-teaser">${escapeHtml(pack.teaser)}</p>` : ""}
+      </div>`;
+    const backToPicker = isCardMode() && !pack && previewId === SOMETHING_ELSE;
+    const back =
+      page > quoteFloor() || backToPicker
+        ? `<button type="button" class="film-quote-back" data-back>Back</button>`
+        : `<span></span>`;
+    return `<div class="film-quote">
+      <div class="film-quote-bar">
+        <button type="button" class="film-quote-close" data-quote-close aria-label="Close">${filmCloseIcon()}</button>
+        ${filmDots()}
+        ${price ? `<p class="film-quote-price">${escapeHtml(price)}</p>` : `<span class="film-quote-price"></span>`}
+      </div>
+      ${intro}
+      <div class="film-quote-body">${body}</div>
+      <div class="film-quote-nav">${back}${next || ""}</div>
+    </div>`;
+  }
+
   function render(options) {
     const previousConfig = root.querySelector(".slim-quote-config");
     const previousConfigTop =
-      options && options.preservePosition && previousConfig
+      options && options.preservePosition && !isCardMode() && previousConfig
         ? previousConfig.getBoundingClientRect().top
         : null;
     const step = currentStep();
@@ -510,44 +819,61 @@
               atBase ? "Starting at" : "Estimated"
             )} ${formatMoney(total)}`
           : `${copy("quote.chrome.from", "From")} ${formatMoney(total)}`;
-    const heading = pack ? pack.title : copy("quote.chrome.heading", "Build Your Package.");
+    const heading = pack
+      ? pack.title
+      : isCardMode() && previewId === SOMETHING_ELSE
+        ? copy("quote.chrome.somethingElse", "Something Else?")
+        : copy("quote.chrome.heading", "Build Your Package.");
 
     let body = "";
-    if (!step && page <= 0) {
+    let sheetNext = "";
+    if (isCardMode() && previewId === SOMETHING_ELSE && !pack) {
+      body = `<p class="film-quote-ask">${escapeHtml(
+        copy("service.something-else.enquire.title", "Tell us your idea.")
+      )}</p>${enquireForm()}`;
+    } else if (isCardMode() && !pack && page <= 0) {
+      body = filmServicePicker();
+    } else if (isCardMode() && step) {
+      const needsNext = step.type === "multi" ? !step.acknowledge && !step.requireAll : false;
+      const chosen = optionById(step, selected[step.id]);
+      const needsDetail = Boolean(chosen && chosen.input);
+      if (step.acknowledge) {
+        const nextAck = nextAckOption(step);
+        const total = (step.options || []).length;
+        const index = Math.min(selectionList(step).length + 1, total);
+        body = `<p class="film-quote-ask">${escapeHtml(filmAsk(step))}</p>
+          ${total ? `<p class="film-quote-ack-count">${index} of ${total}</p>` : ""}
+          <div class="film-quote-choices is-ack">${
+            nextAck ? renderFilmChoice(step, nextAck) : ""
+          }</div>`;
+      } else {
+        const visible = (step.options || []).filter((option) => !isHidden(step, option));
+        const count = visible.length;
+        const cols = count <= 2 || count === 4 ? 2 : count === 7 ? 4 : 3;
+        body = `<p class="film-quote-ask">${escapeHtml(filmAsk(step))}</p>
+          <div class="film-quote-choices is-n${count} is-cols-${cols}">${(step.options || [])
+            .map((option) => renderFilmChoice(step, option))
+            .join("")}</div>`;
+        if (needsNext || needsDetail) sheetNext = filmNext();
+      }
+    } else if (isCardMode() && pack && !step) {
+      body = filmDetailsForm();
+    } else if (!step && page <= 0) {
       const serviceRows = packages
-        .map((item) => {
-          const price =
-            typeof item.basePriceCents === "number"
-              ? `${copy("quote.chrome.from", "From")} ${formatMoney(item.basePriceCents)}`
-              : "";
-          return `<div class="slim-line">
-            <div class="slim-row">
-              <button type="button" class="slim-pick" data-service="${escapeHtml(item.id)}">
-                <span class="slim-option-copy">
-                  <span class="slim-label">${escapeHtml(item.title)}</span>
-                  <span class="slim-read">${escapeHtml(item.summary)}</span>
-                </span>
-                ${price ? `<span class="slim-option-price"><strong>${escapeHtml(price)}</strong></span>` : ""}
-              </button>
-            </div>
-          </div>`;
-        })
+        .map(
+          (item) =>
+            `<button type="button" class="slim-pill" data-service="${escapeHtml(item.id)}">${escapeHtml(item.title)}</button>`
+        )
         .join("");
-      const other = `<div class="slim-line">
-        <div class="slim-row${previewId === SOMETHING_ELSE ? " is-selected" : ""}">
-            <button type="button" class="slim-pick" data-enquire>
-              <span class="slim-option-copy">
-              <span class="slim-label">${escapeHtml(copy("quote.chrome.somethingElse", "Something Else?"))}</span>
-                <span class="slim-read">${escapeHtml(copy("quote.chrome.somethingElseDetail", "Have something different in mind?"))}</span>
-              </span>
-              <span class="slim-option-price"><strong>${escapeHtml(copy("quote.chrome.emailUs", "Enquire"))}</strong></span>
-            </button>
-        </div>
-      </div>`;
+      const other = `<button type="button" class="slim-pill${
+        previewId === SOMETHING_ELSE ? " is-selected" : ""
+      }" data-enquire>${escapeHtml(copy("quote.chrome.somethingElse", "Something Else?"))}</button>`;
       body = renderGroup(
         copy("quote.chrome.chooseService", "Choose a service"),
-        copy("quote.chrome.chooseHint", "What would you like us to create?"),
-        serviceRows + other
+        "",
+        serviceRows + other,
+        "",
+        "pills"
       );
     } else if (step) {
       const needsNext = step.type === "multi" ? !step.acknowledge && !step.requireAll : false;
@@ -558,7 +884,8 @@
         step.title,
         step.acknowledge ? "" : step.hint || "",
         (step.options || []).map((option) => renderOption(step, option)).join(""),
-        stepIndexLabel()
+        stepIndexLabel(),
+        step.acknowledge ? "" : "pills"
       )}${next}`;
     } else if (pack) {
       body = `${rundown()}<form class="slim-group slim-quote-form" data-slim-form novalidate>
@@ -588,7 +915,10 @@
         </form>`;
     }
 
-    root.innerHTML = `<div class="slim-quote-panel">
+    if (isCardMode()) {
+      root.innerHTML = filmMarkup(step, rows, body, sheetNext);
+    } else {
+      root.innerHTML = `<div class="slim-quote-panel${page <= 0 ? " is-picker" : ""}">
       <div class="slim-quote-head">
         <h2>${escapeHtml(heading)}</h2>
         ${figure ? `<p class="slim-quote-total">${escapeHtml(figure)}</p>` : ""}
@@ -601,6 +931,7 @@
         </div>
       </div>
     </div>`;
+    }
 
     if (options && options.focusExtra) {
       const field = root.querySelector("[data-extra]");
@@ -615,7 +946,7 @@
         });
       }
     }
-    if (options && options.scroll) {
+    if (options && options.scroll && !isCardMode()) {
       const section = root.closest(".slim-quote") || root;
       section.scrollIntoView({ block: "start" });
     }
@@ -641,6 +972,20 @@
   function choose(step, optionId) {
     const option = optionById(step, optionId);
     if (!option || isHidden(step, option) || isLocked(step, option)) return;
+    if (isCardMode() && step.acknowledge) {
+      const nextAck = nextAckOption(step);
+      if (!nextAck || nextAck.id !== optionId) return;
+      const list = selectionList(step);
+      list.push(optionId);
+      selected[step.id] = list;
+      prune(step);
+      if (stepReady(step)) {
+        advance();
+        return;
+      }
+      render();
+      return;
+    }
     if (step.type === "multi") {
       let list = selectionList(step);
       if (list.includes(optionId)) {
@@ -769,17 +1114,23 @@
       if (error) error.textContent = copy("quote.chrome.invalidContact", "Add your name and a valid email.");
       return;
     }
-    if (!phone) {
-      if (error) error.textContent = copy("quote.chrome.missingPhone", "Add a phone number.");
+    if (isCardMode() && !more) {
+      if (error) error.textContent = "Add what you need, when, and where.";
       return;
     }
-    if (!date || !time) {
-      if (error) error.textContent = copy("quote.chrome.missingWhen", "Add the event date and time.");
-      return;
-    }
-    if (!address) {
-      if (error) error.textContent = copy("quote.chrome.missingAddress", "Add the address.");
-      return;
+    if (!isCardMode()) {
+      if (!phone) {
+        if (error) error.textContent = copy("quote.chrome.missingPhone", "Add a phone number.");
+        return;
+      }
+      if (!date || !time) {
+        if (error) error.textContent = copy("quote.chrome.missingWhen", "Add the event date and time.");
+        return;
+      }
+      if (!address) {
+        if (error) error.textContent = copy("quote.chrome.missingAddress", "Add the address.");
+        return;
+      }
     }
     const accessKey = window.GLADSTONE_CONFIG && window.GLADSTONE_CONFIG.quoteAccessKey;
     if (!accessKey) {
@@ -803,7 +1154,11 @@
         email,
         replyto: email,
         phone,
-        message: `${name} asked for a quote.\nPhone: ${phone}\nWhen: ${eventWhen(date, time)}\nWhere: ${address}\n\n${summaryText(rows)}${more ? `\n\n${more}` : ""}`,
+        message: `${name} asked for a quote.${
+          phone ? `\nPhone: ${phone}` : ""
+        }${date && time ? `\nWhen: ${eventWhen(date, time)}` : ""}${
+          address ? `\nWhere: ${address}` : ""
+        }\n\n${summaryText(rows)}${more ? `\n\n${more}` : ""}`,
       }),
     })
       .then((res) => res.json().catch(() => ({})))
@@ -831,6 +1186,19 @@
   }
 
   document.addEventListener("click", (event) => {
+    const quoteOpen = event.target.closest("[data-quote-open]");
+    if (quoteOpen) {
+      event.preventDefault();
+      openQuotePicker();
+      return;
+    }
+    const quoteBtn = event.target.closest("[data-card-quote]");
+    if (quoteBtn) {
+      event.preventDefault();
+      event.stopPropagation();
+      openCardQuote(quoteBtn.closest(".home-film"), quoteBtn.getAttribute("data-card-quote"));
+      return;
+    }
     const book = event.target.closest("[data-book]");
     if (!book) return;
     const id = book.getAttribute("data-book");
@@ -857,11 +1225,45 @@
       if (step) changeQuantity(step, qtyButton.getAttribute("data-qty-option"), qtyButton.getAttribute("data-qty"));
       return;
     }
+    const closeButton = event.target.closest("[data-quote-close]");
+    if (closeButton && root.contains(closeButton)) {
+      closeCardQuote();
+      return;
+    }
     const backButton = event.target.closest("[data-back]");
     if (backButton && root.contains(backButton)) {
       rememberFields();
-      if (page > floor) page -= 1;
-      render({ preservePosition: true });
+      if (isCardMode() && !pack && previewId === SOMETHING_ELSE && page <= quoteFloor()) {
+        previewId = packages[0] ? packages[0].id : "";
+        render();
+        return;
+      }
+      if (isCardMode()) {
+        const current = currentStep();
+        if (current && current.acknowledge) {
+          const list = selectionList(current);
+          if (list.length) {
+            selected[current.id] = list.slice(0, -1);
+            render();
+            return;
+          }
+        }
+      }
+      if (page > quoteFloor()) {
+        page -= 1;
+        if (cardHost === quoteSheet && page <= 0) {
+          pack = null;
+          previewId = packages[0] ? packages[0].id : "";
+        }
+        const previous = currentStep();
+        if (isCardMode() && previous && previous.acknowledge) {
+          const list = selectionList(previous);
+          if (list.length) selected[previous.id] = list.slice(0, -1);
+        }
+        render({ preservePosition: !isCardMode() });
+        return;
+      }
+      if (isCardMode()) closeCardQuote();
       return;
     }
     const nextButton = event.target.closest("[data-next]");
@@ -871,6 +1273,13 @@
     }
     const enquireButton = event.target.closest("[data-enquire]");
     if (enquireButton && root.contains(enquireButton)) {
+      if (isCardMode()) {
+        pack = null;
+        previewId = SOMETHING_ELSE;
+        page = 0;
+        render();
+        return;
+      }
       showOverview(SOMETHING_ELSE);
       return;
     }
@@ -937,7 +1346,18 @@
     send(form);
   });
 
+  if (quoteSheet) {
+    quoteSheet.addEventListener("close", () => {
+      if (cardHost) closeCardQuote({ fromDialog: true });
+    });
+  }
+
   render();
+  const openQuoteFromHash = () => {
+    if (window.location.hash === "#quote") openQuotePicker();
+  };
+  openQuoteFromHash();
+  window.addEventListener("hashchange", openQuoteFromHash);
   const refreshCopy = () => {
     rememberEnquire();
     rememberFields();

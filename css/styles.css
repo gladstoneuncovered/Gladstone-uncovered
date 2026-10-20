@@ -6765,8 +6765,8 @@ body:not(.page-home) .slim-quote {
   top: 1.5rem;
   display: flex;
   flex-direction: column;
-  min-height: 34rem;
-  padding: clamp(2rem, 4vw, 3.25rem);
+  min-height: 0;
+  padding: clamp(1.35rem, 3vw, 2rem);
   border-radius: 24px;
   background: #f5f5f7;
   color: #1d1d1f;
@@ -7068,6 +7068,123 @@ body:not(.page-home) .slim-quote {
   font-size: 0.7rem;
 }
 
+.slim-quote .slim-rows--pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.slim-quote .slim-pill,
+.slim-quote .slim-pill-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0;
+  border: 1px solid #d2d2d7;
+  border-radius: 980px;
+  background: #fff;
+  color: #1d1d1f;
+}
+
+.slim-quote .slim-pill {
+  appearance: none;
+  -webkit-appearance: none;
+  padding: 0.38rem 0.78rem;
+  font: inherit;
+  font-size: 0.84rem;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  text-align: left;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.slim-quote .slim-pill-wrap {
+  padding-right: 0.45rem;
+}
+
+.slim-quote .slim-pill-wrap .slim-pill {
+  border: 0;
+  background: transparent;
+  padding-right: 0.45rem;
+}
+
+.slim-quote .slim-pill:hover,
+.slim-quote .slim-pill-wrap:hover {
+  border-color: #1d1d1f;
+}
+
+.slim-quote .slim-pill.is-selected,
+.slim-quote .slim-pill-wrap.is-selected {
+  border-color: #1d1d1f;
+  background: #1d1d1f;
+  color: #fff;
+}
+
+.slim-quote .slim-pill-price {
+  color: #6e6e73;
+  font-size: 0.78rem;
+  font-weight: 400;
+}
+
+.slim-quote .slim-pill.is-selected .slim-pill-price,
+.slim-quote .slim-pill-wrap.is-selected .slim-pill-price {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.slim-quote .slim-pill:disabled,
+.slim-quote .slim-pill.is-locked {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.slim-quote .slim-pill-wrap .slim-qty {
+  padding: 0;
+}
+
+.slim-quote .slim-pill-wrap.is-selected .slim-qty button {
+  border-color: rgba(255, 255, 255, 0.4);
+  background: transparent;
+  color: #fff;
+}
+
+.slim-quote .slim-pill-extra {
+  flex: 1 1 100%;
+}
+
+.slim-quote .slim-quote-panel.is-picker .slim-overview-summary,
+.slim-quote .slim-quote-panel.is-picker .slim-overview-price,
+.slim-quote .slim-quote-panel.is-picker .slim-overview-teaser {
+  display: none;
+}
+
+.slim-quote .slim-quote-panel.is-picker .slim-quote-layout {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.slim-quote .slim-quote-panel.is-picker .slim-quote-overview {
+  display: none;
+  min-height: 0;
+}
+
+.slim-quote .slim-quote-panel.is-picker:has(.slim-quote-overview.is-enquire) .slim-quote-layout {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.slim-quote .slim-quote-panel.is-picker .slim-quote-overview.is-enquire {
+  display: flex;
+}
+
+.slim-quote .slim-quote-panel.is-picker .slim-overview-list {
+  margin-top: 1.1rem;
+}
+
+.slim-quote .slim-quote-panel.is-picker .slim-group-title {
+  margin-bottom: 0.75rem;
+  font-size: clamp(1.15rem, 1.8vw, 1.4rem);
+}
+
 .slim-quote .slim-qty {
   justify-content: flex-end;
   padding: 0 0.8rem 0.75rem;
@@ -7105,7 +7222,8 @@ body:not(.page-home) .slim-quote {
 }
 
 @media (max-width: 900px) {
-  .slim-quote .slim-quote-layout {
+  .slim-quote .slim-quote-layout,
+  .slim-quote .slim-quote-panel.is-picker:has(.slim-quote-overview.is-enquire) .slim-quote-layout {
     grid-template-columns: minmax(0, 1fr);
     gap: 1.15rem;
   }
@@ -7792,7 +7910,7 @@ body.site-apple.page-home .home-film-copy {
   position: absolute;
   top: auto;
   right: clamp(1.5rem, 4vw, 3rem);
-  bottom: clamp(1.6rem, 4vw, 3rem);
+  bottom: calc(clamp(1.6rem, 4vw, 3rem) + 2.55rem);
   left: clamp(1.5rem, 4vw, 3rem);
   display: grid;
   width: auto;
@@ -7840,7 +7958,9 @@ body.site-apple.page-home .home-film-price {
 }
 
 body.site-apple.page-home a.home-film:hover::after,
-body.site-apple.page-home a.home-film:focus-visible::after {
+body.site-apple.page-home a.home-film:focus-visible::after,
+body.site-apple.page-home .home-film:has(.home-film-hit:hover)::after,
+body.site-apple.page-home .home-film:has(.home-film-hit:focus-visible)::after {
   background: linear-gradient(
     180deg,
     rgba(0, 0, 0, 0.1) 28%,
@@ -7850,7 +7970,9 @@ body.site-apple.page-home a.home-film:focus-visible::after {
 }
 
 body.site-apple.page-home a.home-film.is-bright:hover::after,
-body.site-apple.page-home a.home-film.is-bright:focus-visible::after {
+body.site-apple.page-home a.home-film.is-bright:focus-visible::after,
+body.site-apple.page-home .home-film.is-bright:has(.home-film-hit:hover)::after,
+body.site-apple.page-home .home-film.is-bright:has(.home-film-hit:focus-visible)::after {
   background: linear-gradient(
     180deg,
     rgba(0, 0, 0, 0.28) 6%,
@@ -7858,6 +7980,490 @@ body.site-apple.page-home a.home-film.is-bright:focus-visible::after {
     rgba(0, 0, 0, 0.74) 62%,
     rgba(0, 0, 0, 0.92) 100%
   );
+}
+
+body.site-apple.page-home .home-film-hit {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  color: inherit;
+  text-decoration: none;
+}
+
+body.site-apple.page-home .home-film-quote {
+  position: absolute;
+  left: 50%;
+  bottom: clamp(1.35rem, 3.5vw, 2.4rem);
+  z-index: 3;
+  transform: translateX(-50%);
+  padding: 0.42rem 0.9rem;
+  border: 0;
+  border-radius: 980px;
+  background: rgba(255, 255, 255, 0.92);
+  color: #1d1d1f;
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  white-space: nowrap;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.16);
+  cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
+}
+
+body.site-apple.page-home .home-film-quote:hover,
+body.site-apple.page-home .home-film-quote:focus-visible {
+  transform: translateX(-50%) scale(1.08);
+  background: #fff;
+  color: #000;
+  box-shadow:
+    0 0 0 6px rgba(255, 255, 255, 0.38),
+    0 14px 32px rgba(0, 0, 0, 0.28);
+}
+
+body.site-apple.page-home .home-film-quote-slot {
+  display: none;
+}
+
+body.site-apple .quote-sheet {
+  position: fixed;
+  inset: unset;
+  top: 50%;
+  left: 50%;
+  width: min(46rem, 64vw);
+  height: fit-content;
+  max-width: calc(100vw - 1.25rem);
+  max-height: min(42rem, 70vh, calc(100dvh - 1.25rem));
+  margin: 0;
+  padding: 1.05rem 1.35rem 1rem;
+  border: 0;
+  border-radius: 3.25rem;
+  background: #fff;
+  color: #1d1d1f;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.18);
+  overflow: hidden;
+  transform: translate(-50%, -50%);
+}
+
+body.site-apple .quote-sheet[open] {
+  display: flex;
+}
+
+body.site-apple .quote-sheet::backdrop {
+  background: rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(6px);
+}
+
+body.site-apple .quote-sheet-slot.slim-quote {
+  display: flex;
+  width: 100%;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+}
+
+body.site-apple .quote-sheet-slot > [data-slim-quote] {
+  display: flex;
+  width: 100%;
+  min-height: 0;
+}
+
+body.site-apple .quote-sheet .film-quote {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+  max-height: min(38rem, calc(70vh - 2rem), calc(100dvh - 2.5rem));
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+body.site-apple .quote-sheet .film-quote-bar {
+  display: grid;
+  grid-template-columns: 2rem 1fr auto;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+body.site-apple .quote-sheet .film-quote-close {
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.06);
+  color: #1d1d1f;
+  cursor: pointer;
+}
+
+body.site-apple .quote-sheet .film-quote-close:hover,
+body.site-apple .quote-sheet .film-quote-close:focus-visible {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+body.site-apple .quote-sheet .film-quote-close svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+body.site-apple .quote-sheet .film-quote-dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.28rem;
+}
+
+body.site-apple .quote-sheet .film-quote-dot {
+  width: 0.38rem;
+  height: 0.38rem;
+  border-radius: 50%;
+  background: #d2d2d7;
+}
+
+body.site-apple .quote-sheet .film-quote-dot.is-done,
+body.site-apple .quote-sheet .film-quote-dot.is-now {
+  background: #1d1d1f;
+}
+
+body.site-apple .quote-sheet .film-quote-dot.is-now {
+  width: 0.7rem;
+  border-radius: 980px;
+}
+
+body.site-apple .quote-sheet .film-quote-price {
+  margin: 0;
+  font-size: 0.92rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+
+body.site-apple .quote-sheet .film-quote-intro h2 {
+  margin: 0;
+  font-size: clamp(1.28rem, 3.2vw, 1.65rem);
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  line-height: 1.08;
+}
+
+body.site-apple .quote-sheet .film-quote-includes {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.18rem 0.85rem;
+  margin: 0.42rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+body.site-apple .quote-sheet .film-quote-includes li {
+  position: relative;
+  padding-left: 0.9rem;
+  color: #6e6e73;
+  font-size: 0.74rem;
+  letter-spacing: -0.01em;
+  line-height: 1.28;
+}
+
+body.site-apple .quote-sheet .film-quote-includes li::before {
+  position: absolute;
+  left: 0;
+  color: #0071e3;
+  content: "✓";
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+
+body.site-apple .quote-sheet .film-quote-teaser {
+  margin: 0.4rem 0 0;
+  color: #6e6e73;
+  font-size: 0.84rem;
+  letter-spacing: -0.012em;
+  line-height: 1.35;
+}
+
+body.site-apple .quote-sheet .film-quote-body {
+  display: grid;
+  align-content: start;
+  gap: 0.48rem;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+}
+
+body.site-apple .quote-sheet .film-quote-ask {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: -0.028em;
+  line-height: 1.2;
+}
+
+body.site-apple .quote-sheet .film-quote-ack-count {
+  margin: -0.2rem 0 0;
+  color: #6e6e73;
+  font-size: 0.74rem;
+  letter-spacing: -0.01em;
+}
+
+body.site-apple .quote-sheet .film-quote-note {
+  margin: 0.2rem 0 0.15rem;
+  color: #6e6e73;
+  font-size: 0.7rem;
+  letter-spacing: -0.01em;
+  line-height: 1.35;
+  text-align: center;
+}
+
+body.site-apple .quote-sheet .film-quote-choices {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.4rem;
+}
+
+body.site-apple .quote-sheet .film-quote-choices.is-ack {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+body.site-apple .quote-sheet .film-quote-choices.is-cols-2 > :not(.film-quote-extra) {
+  flex: 0 0 calc((100% - 0.4rem) / 2);
+}
+
+body.site-apple .quote-sheet .film-quote-choices.is-cols-3 > :not(.film-quote-extra) {
+  flex: 0 0 calc((100% - 0.8rem) / 3);
+}
+
+body.site-apple .quote-sheet .film-quote-choices.is-cols-4 > :not(.film-quote-extra) {
+  flex: 0 0 calc((100% - 1.2rem) / 4);
+}
+
+body.site-apple .quote-sheet .film-quote-choice,
+body.site-apple .quote-sheet .film-quote-choice-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 3.35rem;
+  margin: 0;
+  padding: 0.5rem 0.65rem;
+  border: 1px solid #d2d2d7;
+  border-radius: 14px;
+  background: #fff;
+  color: #1d1d1f;
+  text-align: center;
+}
+
+body.site-apple .quote-sheet .film-quote-choice {
+  font: inherit;
+  cursor: pointer;
+}
+
+body.site-apple .quote-sheet .film-quote-choice:focus {
+  outline: none;
+}
+
+body.site-apple .quote-sheet .film-quote-choice-wrap {
+  padding: 0.45rem 0.55rem 0.55rem;
+}
+
+body.site-apple .quote-sheet .film-quote-choice-wrap .film-quote-choice {
+  min-height: 0;
+  padding: 0.25rem 0.2rem 0.15rem;
+  border: 0;
+  background: transparent;
+}
+
+body.site-apple .quote-sheet .film-quote-choice-label {
+  font-size: 0.84rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+body.site-apple .quote-sheet .film-quote-choice .slim-pill-price {
+  margin-top: 0.2rem;
+  color: #6e6e73;
+  font-size: 0.74rem;
+  font-weight: 500;
+}
+
+body.site-apple .quote-sheet .film-quote-choice:hover,
+body.site-apple .quote-sheet .film-quote-choice-wrap:hover {
+  border-color: #1d1d1f;
+}
+
+body.site-apple .quote-sheet .film-quote-choice.is-selected,
+body.site-apple .quote-sheet .film-quote-choice-wrap.is-selected {
+  border-color: #1d1d1f;
+  background: #1d1d1f;
+  color: #fff;
+}
+
+body.site-apple .quote-sheet .film-quote-choice.is-selected .slim-pill-price,
+body.site-apple .quote-sheet .film-quote-choice-wrap.is-selected .slim-pill-price {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+body.site-apple .quote-sheet .film-quote-choice.is-locked,
+body.site-apple .quote-sheet .film-quote-choice:disabled {
+  opacity: 0.38;
+  cursor: not-allowed;
+}
+
+body.site-apple .quote-sheet .film-quote-extra {
+  flex: 1 0 100%;
+  grid-column: 1 / -1;
+}
+
+body.site-apple .quote-sheet .film-quote-choice-wrap .slim-qty {
+  padding: 0.15rem 0 0;
+}
+
+body.site-apple .quote-sheet .film-quote-choice-wrap.is-selected .slim-qty button {
+  border-color: rgba(255, 255, 255, 0.4);
+  background: transparent;
+  color: #fff;
+}
+
+body.site-apple .quote-sheet .slim-row.is-ack .slim-pick {
+  padding: 0.7rem 0.8rem;
+}
+
+body.site-apple .quote-sheet .slim-read {
+  font-size: 0.74rem;
+}
+
+body.site-apple .quote-sheet .film-quote-nav {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 0.75rem;
+  flex: 0 0 auto;
+  min-height: 2.4rem;
+  padding-top: 0.35rem;
+  background: #fff;
+  z-index: 1;
+}
+
+body.site-apple .quote-sheet .film-quote-nav:not(:has(button)) {
+  display: none;
+}
+
+body.site-apple .quote-sheet .film-quote-back,
+body.site-apple .quote-sheet .film-quote-next {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #1d1d1f;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  cursor: pointer;
+}
+
+body.site-apple .quote-sheet .film-quote-back {
+  justify-self: start;
+  color: #6e6e73;
+}
+
+body.site-apple .quote-sheet .film-quote-next {
+  justify-self: end;
+  min-height: 2.4rem;
+  padding: 0.5rem 1.05rem;
+  border-radius: 980px;
+  background: #1d1d1f;
+  color: #fff;
+}
+
+body.site-apple .quote-sheet .film-quote-nav .slim-error {
+  grid-column: 1 / -1;
+  margin: 0;
+}
+
+body.site-apple .quote-sheet .film-quote-form,
+body.site-apple .quote-sheet .slim-overview-enquire {
+  display: grid;
+  gap: 0.45rem;
+  margin: 0;
+}
+
+body.site-apple .quote-sheet .slim-fields {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.45rem;
+  margin: 0;
+}
+
+body.site-apple .quote-sheet .slim-fields > :last-child:nth-child(odd) {
+  grid-column: 1 / -1;
+}
+
+body.site-apple .quote-sheet .film-quote-form > input,
+body.site-apple .quote-sheet .slim-more textarea,
+body.site-apple .quote-sheet .slim-extra input,
+body.site-apple .quote-sheet .slim-fields input {
+  width: 100%;
+  min-height: 2.5rem;
+  padding: 0.55rem 0.75rem;
+  border: 1px solid #d2d2d7;
+  border-radius: 12px;
+  background: #fff;
+  font-size: 0.9rem;
+}
+
+body.site-apple .quote-sheet .slim-more {
+  margin: 0;
+}
+
+body.site-apple .quote-sheet .slim-more textarea {
+  min-height: 5.6rem;
+}
+
+body.site-apple .quote-sheet .slim-send-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 0.2rem;
+}
+
+body.site-apple .quote-sheet .slim-overview-enquire .slim-send,
+body.site-apple .quote-sheet .film-quote-next.slim-send {
+  display: inline-flex;
+  justify-content: center;
+  justify-self: stretch;
+  width: 100%;
+  min-height: 2.4rem;
+  padding: 0.5rem 1.05rem;
+  border: 0;
+  border-radius: 980px;
+  background: #1d1d1f;
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+body.site-apple .quote-sheet .slim-sticky-bar,
+body.site-apple .quote-sheet .slim-next-inline {
+  display: none;
+}
+
+body.has-card-quote #quote {
+  display: none;
+}
+
+@media (max-width: 720px) {
+  body.site-apple .quote-sheet {
+    width: calc(100vw - 1rem);
+    height: auto;
+    max-height: calc(100dvh - 1rem);
+    padding: 0.85rem 0.9rem 0.8rem;
+    border-radius: 1.7rem;
+  }
 }
 
 body.site-apple .showreel.apple-tv {
@@ -8847,18 +9453,53 @@ body.site-apple .site-footer {
 }
 
 body.site-apple .footer-inner {
-  width: 100%;
-  grid-template-columns: auto 1fr auto;
-  gap: 0.85rem 1.5rem;
+  display: flex;
+  flex-direction: column;
   align-items: center;
+  justify-content: center;
+  gap: 1.2rem;
+  width: 100%;
+  text-align: center;
 }
 
-body.site-apple .site-footer .logo {
-  width: 7.8rem;
+body.site-apple .footer-actions {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  width: 100%;
+  margin: 0;
+  padding: 0;
 }
 
-body.site-apple .site-footer .logo img {
-  filter: brightness(0);
+body.site-apple .footer-pill {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  min-height: 1.7rem;
+  margin: 0;
+  padding: 0.22rem 0.85rem;
+  border: 1px solid rgba(0, 0, 0, 0.16);
+  border-radius: 980px;
+  background: transparent;
+  color: var(--site-ink);
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: -0.012em;
+  line-height: 1.2;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+body.site-apple .footer-pill:hover,
+body.site-apple .footer-pill:focus-visible {
+  border-color: #1d1d1f;
+  background: #1d1d1f;
+  color: #fff;
 }
 
 body.site-apple .footer-tag {
@@ -8866,11 +9507,17 @@ body.site-apple .footer-tag {
 }
 
 body.site-apple .footer-brand-line {
-  color: var(--site-muted);
-  font-size: 0.95rem;
-  font-weight: 400;
-  letter-spacing: -0.018em;
-  line-height: 1.35;
+  grid-column: auto;
+  justify-self: center;
+  max-width: 16em;
+  margin: 0;
+  color: var(--site-ink);
+  font-family: var(--font-heading);
+  font-size: clamp(1.55rem, 3.4vw, 2.2rem);
+  font-weight: 600;
+  letter-spacing: -0.045em;
+  line-height: 1.12;
+  text-align: center;
   text-transform: none;
   opacity: 1;
 }
@@ -8949,7 +9596,13 @@ body.site-apple .social a:hover {
   body.site-apple .showreel-head,
   body.site-apple .showreel-head--row,
   body.site-apple.page-home .apple-tv .showreel-head--row {
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+  }
+
+  body.site-apple.page-home .showreel-title,
+  body.site-apple .showreel .showreel-title {
+    flex-wrap: nowrap;
+    width: 100%;
   }
 
   body.site-apple .showreel .reel-track {
@@ -8966,6 +9619,20 @@ body.site-apple .social a:hover {
 }
 
 @media (max-width: 734px) {
+  body.site-apple.page-home .apple-tv .showreel-head--row {
+    container-type: inline-size;
+  }
+
+  body.site-apple.page-home .apple-tv .showreel-title {
+    justify-content: space-between;
+    gap: 0.35rem;
+    width: 100%;
+    font-size: 0.68rem;
+    font-size: clamp(0.58rem, 4.05cqi, 1.15rem);
+    letter-spacing: -0.045em;
+    line-height: 1.1;
+  }
+
   body.site-apple .nav {
     width: calc(100% - 2rem);
     justify-content: space-between;
@@ -9094,14 +9761,26 @@ body.site-apple .social a:hover {
   }
 
   body.site-apple .footer-inner {
-    grid-template-columns: 1fr auto;
-    justify-items: start;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
   }
 
   body.site-apple .footer-brand-line {
-    grid-column: 1 / -1;
-    justify-self: start;
-    text-align: left;
+    max-width: 14em;
+    font-size: clamp(1.2rem, 5.4vw, 1.55rem);
+    text-align: center;
+  }
+
+  body.site-apple .footer-actions {
+    flex-wrap: nowrap;
+    gap: 0.3rem;
+  }
+
+  body.site-apple .footer-pill {
+    padding: 0.2rem 0.62rem;
+    font-size: clamp(0.68rem, 2.9vw, 0.78rem);
   }
 }
 
@@ -9156,9 +9835,13 @@ body.site-apple .social a:hover {
 
   body.site-apple.page-home:not(.page-service) .home-films-grid .home-film-copy {
     right: 1rem;
-    bottom: 1rem;
+    bottom: 3.15rem;
     left: 1rem;
     gap: 0.28rem;
+  }
+
+  body.site-apple.page-home:not(.page-service) .home-films-grid .home-film-quote {
+    bottom: 0.95rem;
   }
 
   body.site-apple.page-home:not(.page-service) .home-films-grid .home-film-title {
@@ -9180,6 +9863,129 @@ body.site-apple .social a:hover {
 
   .slim-quote .slim-fields {
     grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+body.site-apple.page-info main {
+  padding-top: 12px;
+}
+
+body.site-apple.page-info .apple-duo--about,
+body.site-apple.page-info .info-sheet {
+  width: min(var(--site-shell), calc(100% - 24px));
+  margin: 0 auto 12px;
+  border-radius: var(--site-radius);
+  background: var(--site-surface);
+}
+
+body.site-apple.page-info .apple-duo--about {
+  display: grid;
+  grid-template-columns: minmax(16rem, 0.98fr) minmax(0, 1.02fr);
+  grid-template-areas: "lead copy";
+  align-items: start;
+  column-gap: clamp(1.5rem, 3.4vw, 2.65rem);
+  padding: clamp(2.1rem, 4vw, 3rem) var(--site-gutter) clamp(1.85rem, 3.2vw, 2.45rem);
+}
+
+body.site-apple.page-info .apple-duo--about .apple-duo-lead {
+  grid-area: lead;
+}
+
+body.site-apple.page-info .apple-duo--about .apple-duo-copy {
+  grid-area: copy;
+  display: grid;
+  gap: 0.95rem;
+  padding-top: 0.15rem;
+}
+
+body.site-apple.page-info .apple-duo--about .apple-duo-sub {
+  margin: 0;
+  color: var(--site-ink);
+  font-family: var(--font-heading);
+  font-size: clamp(1.9rem, 3.1vw, 2.55rem);
+  font-weight: 600;
+  letter-spacing: -0.045em;
+  line-height: 1.06;
+  text-transform: none;
+}
+
+body.site-apple.page-info .apple-duo--about .apple-duo-note {
+  max-width: none;
+  margin: 0;
+  color: var(--site-muted);
+  font-size: clamp(1.05rem, 1.55vw, 1.22rem);
+  font-weight: 400;
+  letter-spacing: -0.018em;
+  line-height: 1.47;
+}
+
+body.site-apple.page-info .apple-duo-note--break {
+  margin-top: 0.45rem;
+}
+
+body.site-apple.page-info .info-sheet {
+  padding: clamp(2rem, 4.5vw, 3.15rem) var(--site-gutter);
+}
+
+body.site-apple.page-info .info-sheet h2 {
+  margin: 0 0 0.9rem;
+  color: var(--site-ink);
+  font-size: clamp(1.55rem, 3vw, 2.15rem);
+  font-weight: 600;
+  letter-spacing: -0.042em;
+  line-height: 1.1;
+}
+
+body.site-apple.page-info .info-sheet p,
+body.site-apple.page-info .info-offer p {
+  margin: 0 0 0.85rem;
+  color: var(--site-muted);
+  font-size: 1.02rem;
+  letter-spacing: -0.016em;
+  line-height: 1.5;
+}
+
+body.site-apple.page-info .info-sheet > p:last-child,
+body.site-apple.page-info .info-offer p:last-child {
+  margin-bottom: 0;
+}
+
+body.site-apple.page-info .info-offer {
+  display: grid;
+  gap: 1.2rem;
+  margin-top: 1.35rem;
+}
+
+body.site-apple.page-info .info-offer h3 {
+  margin: 0 0 0.25rem;
+  color: var(--site-ink);
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+@media (max-width: 900px) {
+  body.site-apple.page-info .apple-duo--about {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      "lead"
+      "copy";
+    row-gap: 1.05rem;
+  }
+
+  body.site-apple.page-info .apple-duo--about .apple-duo-sub {
+    max-width: 10.5em;
+  }
+
+  body.site-apple.page-info .apple-duo--about .apple-duo-copy {
+    padding-top: 0;
+  }
+}
+
+@media (max-width: 734px) {
+  body.site-apple.page-info .apple-duo--about,
+  body.site-apple.page-info .info-sheet {
+    padding: 1.75rem 1.5rem 1.5rem;
   }
 }
 

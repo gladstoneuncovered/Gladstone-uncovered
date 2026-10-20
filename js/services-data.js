@@ -8,7 +8,7 @@ window.GLADSTONE_SERVICES = [
     href: "/services/aerial-video",
   },
   {
-    title: "Real Estate Aerial Photography",
+    title: "Real Estate",
     price: "Starting at $150",
     description: [
       "A perspective you won’t get from the street. A minimum of five edited images of the home, land and surrounding location, ready for listings and advertising.",

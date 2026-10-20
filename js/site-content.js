@@ -130,6 +130,11 @@
       );
       if (!pack || typeof pack.basePriceCents !== "number") return;
       const amount = formatMoney(pack.basePriceCents);
+      if (node.classList.contains("home-film-quote")) {
+        node.textContent = `From ${amount}`;
+        node.setAttribute("aria-label", `Build from ${amount}`);
+        return;
+      }
       if (node.classList.contains("service-hero-price")) {
         const label = node.querySelector(".service-hero-price-label");
         const value = node.querySelector(".service-hero-price-amount");
@@ -204,8 +209,10 @@
         "home.card.full-day-event-coverage.title": "The Big One",
         "home.card.full-day-event-coverage.line":
           "More of everything.",
+        "home.card.real-estate-drone-photography.title": "Real Estate",
         "home.card.real-estate-drone-photography.line":
           "A perspective you won’t get from the street.",
+        "quote.real-estate-drone-photography.title": "Real Estate",
         "home.card.drone-inspections.line":
           "Get a clearer look without the climb.",
         "service.event-highlights.title": "Highlights",

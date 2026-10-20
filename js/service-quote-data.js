@@ -178,7 +178,7 @@ window.GLADSTONE_SERVICE_QUOTES = [
   },
   {
     id: "real-estate-drone-photography",
-    title: "Real Estate Aerial Photography",
+    title: "Real Estate",
     summary: "A perspective you won’t get from the street.",
     teaser: "5 edited images · Home, land and location",
     baseLabel: "A minimum of five images",
