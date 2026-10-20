@@ -35,7 +35,7 @@ window.GLADSTONE_SERVICES = [
     title: "The Big One",
     price: "Starting at $1,095",
     description: [
-      "All hands on deck. The crew, the gear, and quality content that’ll last longer than just the day.",
+      "More of everything.",
     ],
     href: "/services/full-day-event-coverage",
   },

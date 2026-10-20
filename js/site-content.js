@@ -203,7 +203,7 @@
         "home.card.event-highlights.line": "Let them see what they missed.",
         "home.card.full-day-event-coverage.title": "The Big One",
         "home.card.full-day-event-coverage.line":
-          "All hands on deck. The crew, the gear, and quality content that’ll last longer than just the day.",
+          "More of everything.",
         "home.card.real-estate-drone-photography.line":
           "A perspective you won’t get from the street.",
         "service.event-highlights.title": "The Highlights",
@@ -214,7 +214,7 @@
           "Extra highlights, extra coverage, extra flights, additional footage and live content can be added when you build the package. Ground-only coverage is also available.",
         "service.full-day-event-coverage.title": "The Big One",
         "service.full-day-event-coverage.line":
-          "All hands on deck. The crew, the gear, and quality content that’ll last longer than just the day.",
+          "More of everything.",
         "service.real-estate-drone-photography.line":
           "A perspective you won’t get from the street.",
         "quote.event-highlights.title": "The Highlights",
@@ -222,7 +222,7 @@
         "quote.event-highlights.baseLabel": "The Highlights",
         "quote.full-day-event-coverage.title": "The Big One",
         "quote.full-day-event-coverage.summary":
-          "All hands on deck. The crew, the gear, and quality content that’ll last longer than just the day.",
+          "More of everything.",
         "quote.full-day-event-coverage.baseLabel": "The Big One",
         "quote.real-estate-drone-photography.summary":
           "A perspective you won’t get from the street.",
