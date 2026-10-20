@@ -756,6 +756,7 @@ textarea {
   color: #fff;
   background: #111;
   text-align: center;
+  text-decoration: none;
   container-type: inline-size;
   border-radius: 999px;
 }
@@ -7838,9 +7839,25 @@ body.site-apple.page-home .home-film-price {
   color: rgba(255, 255, 255, 0.7);
 }
 
-body.site-apple.page-home .home-film .apple-actions {
-  justify-content: center;
-  margin-top: 0.85rem;
+body.site-apple.page-home a.home-film:hover::after,
+body.site-apple.page-home a.home-film:focus-visible::after {
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.1) 28%,
+    rgba(0, 0, 0, 0.36) 54%,
+    rgba(0, 0, 0, 0.88) 100%
+  );
+}
+
+body.site-apple.page-home a.home-film.is-bright:hover::after,
+body.site-apple.page-home a.home-film.is-bright:focus-visible::after {
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.28) 6%,
+    rgba(0, 0, 0, 0.48) 36%,
+    rgba(0, 0, 0, 0.74) 62%,
+    rgba(0, 0, 0, 0.92) 100%
+  );
 }
 
 body.site-apple .showreel.apple-tv {
