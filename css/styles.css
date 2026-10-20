@@ -7768,22 +7768,6 @@ body.site-apple.page-home .home-film {
   box-shadow: none;
 }
 
-body.site-apple.page-home .home-film-video.is-lift {
-  object-position: center 86%;
-  inset: -92% 0 auto 0;
-  width: 100%;
-  height: 240%;
-}
-
-body.site-apple.page-home .home-film-video.is-lift--site {
-  object-position: center bottom;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  transform: translateY(-18%) scale(2.2);
-  transform-origin: center 78%;
-}
-
 body.site-apple.page-home .home-film::after {
   background: linear-gradient(
     180deg,
@@ -9151,19 +9135,6 @@ body.site-apple .social a:hover {
     max-height: none;
     aspect-ratio: 3 / 2;
     margin: 0;
-  }
-
-  body.site-apple.page-home .home-film-video.is-lift {
-    object-position: center 90%;
-    inset: -115% 0 auto 0;
-    height: 270%;
-  }
-
-  body.site-apple.page-home .home-film-video.is-lift--site {
-    inset: 0;
-    height: 100%;
-    transform: translateY(-22%) scale(2.45);
-    transform-origin: center 72%;
   }
 
   body.site-apple.page-home:not(.page-service) .home-films-grid .home-film-copy {
