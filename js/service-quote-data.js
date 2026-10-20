@@ -2,8 +2,7 @@ window.GLADSTONE_SERVICE_QUOTES = [
   {
     id: "aerial-video",
     title: "Flyover",
-    summary:
-      "See your event, business, property or location from a perspective that stands out.",
+    summary: "Coverage from the air.",
     teaser: "30 min flight · Unedited clips · Cloud link",
     baseLabel: "One drone flight",
     baseDetail: "Up to about 30 minutes",
@@ -180,8 +179,7 @@ window.GLADSTONE_SERVICE_QUOTES = [
   {
     id: "real-estate-drone-photography",
     title: "Real Estate Aerial Photography",
-    summary:
-      "Give buyers a perspective they can’t get from the street.",
+    summary: "A perspective you won’t get from the street.",
     teaser: "5 edited images · Home, land and location",
     baseLabel: "A minimum of five images",
     baseDetail: "Within 5 business days, weather allowing",
@@ -678,7 +676,7 @@ window.GLADSTONE_SERVICE_QUOTES = [
     id: "full-day-event-coverage",
     title: "The Big One",
     summary:
-      "For those times when a quick one won’t cut it.",
+      "All hands on deck. The crew, the gear, and quality content that’ll last longer than just the day.",
     teaser: "5 hours · 2-person crew · Ground + aerial",
     baseLabel: "The Big One",
     baseDetail: "Up to 5 hours",

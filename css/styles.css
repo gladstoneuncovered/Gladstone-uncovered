@@ -7769,18 +7769,37 @@ body.site-apple.page-home .home-film {
 }
 
 body.site-apple.page-home .home-film-video.is-lift {
-  object-position: center bottom;
-  inset: auto 0 0 0;
+  object-position: center 86%;
+  inset: -92% 0 auto 0;
   width: 100%;
-  height: 148%;
+  height: 240%;
+}
+
+body.site-apple.page-home .home-film-video.is-lift--site {
+  object-position: center bottom;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transform: translateY(-18%) scale(2.2);
+  transform-origin: center 78%;
 }
 
 body.site-apple.page-home .home-film::after {
   background: linear-gradient(
     180deg,
-    rgba(0, 0, 0, 0.02) 36%,
-    rgba(0, 0, 0, 0.2) 58%,
-    rgba(0, 0, 0, 0.82) 100%
+    rgba(0, 0, 0, 0.06) 28%,
+    rgba(0, 0, 0, 0.28) 54%,
+    rgba(0, 0, 0, 0.84) 100%
+  );
+}
+
+body.site-apple.page-home .home-film.is-bright::after {
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.22) 6%,
+    rgba(0, 0, 0, 0.4) 36%,
+    rgba(0, 0, 0, 0.68) 62%,
+    rgba(0, 0, 0, 0.9) 100%
   );
 }
 
@@ -7807,13 +7826,27 @@ body.site-apple.page-home .home-film-title {
   letter-spacing: -0.055em;
   line-height: 1;
   text-wrap: balance;
+  text-shadow:
+    0 1px 1px rgba(0, 0, 0, 0.4),
+    0 10px 28px rgba(0, 0, 0, 0.55);
 }
 
 body.site-apple.page-home .home-film-line {
-  max-width: 26rem;
+  max-width: 32rem;
   margin: 0.25rem 0 0;
   font-size: clamp(1rem, 3cqi, 1.16rem);
   text-wrap: balance;
+  text-shadow:
+    0 1px 1px rgba(0, 0, 0, 0.4),
+    0 8px 22px rgba(0, 0, 0, 0.5);
+}
+
+body.site-apple.page-home .home-film.is-bright .home-film-title,
+body.site-apple.page-home .home-film.is-bright .home-film-line,
+body.site-apple.page-home .home-film.is-bright .home-film-price {
+  text-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.6),
+    0 8px 26px rgba(0, 0, 0, 0.72);
 }
 
 body.site-apple.page-home .home-film-price {
@@ -9118,6 +9151,19 @@ body.site-apple .social a:hover {
     max-height: none;
     aspect-ratio: 3 / 2;
     margin: 0;
+  }
+
+  body.site-apple.page-home .home-film-video.is-lift {
+    object-position: center 90%;
+    inset: -115% 0 auto 0;
+    height: 270%;
+  }
+
+  body.site-apple.page-home .home-film-video.is-lift--site {
+    inset: 0;
+    height: 100%;
+    transform: translateY(-22%) scale(2.45);
+    transform-origin: center 72%;
   }
 
   body.site-apple.page-home:not(.page-service) .home-films-grid .home-film-copy {

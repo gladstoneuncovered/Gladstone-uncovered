@@ -194,25 +194,38 @@
       });
       Object.assign(copy, {
         "home.card.aerial-video.title": "Flyover",
+        "home.card.aerial-video.line": "Coverage from the air.",
         "service.aerial-video.title": "Flyover",
+        "service.aerial-video.line": "Coverage from the air.",
         "quote.aerial-video.title": "Flyover",
+        "quote.aerial-video.summary": "Coverage from the air.",
         "home.card.event-highlights.title": "The Highlights",
         "home.card.event-highlights.line": "Let them see what they missed.",
         "home.card.full-day-event-coverage.title": "The Big One",
         "home.card.full-day-event-coverage.line":
-          "For those times when a quick one won’t cut it.",
+          "All hands on deck. The crew, the gear, and quality content that’ll last longer than just the day.",
+        "home.card.real-estate-drone-photography.line":
+          "A perspective you won’t get from the street.",
         "service.event-highlights.title": "The Highlights",
         "service.event-highlights.line": "Let them see what they missed.",
+        "service.event-highlights.note.0":
+          "A two-person crew films the people, energy and atmosphere from the ground and the air, then edits it into one cinematic, social media ready highlight reel.",
+        "service.event-highlights.note.1":
+          "Extra highlights, extra coverage, extra flights, additional footage and live content can be added when you build the package. Ground-only coverage is also available.",
         "service.full-day-event-coverage.title": "The Big One",
         "service.full-day-event-coverage.line":
-          "For those times when a quick one won’t cut it.",
+          "All hands on deck. The crew, the gear, and quality content that’ll last longer than just the day.",
+        "service.real-estate-drone-photography.line":
+          "A perspective you won’t get from the street.",
         "quote.event-highlights.title": "The Highlights",
         "quote.event-highlights.summary": "Let them see what they missed.",
         "quote.event-highlights.baseLabel": "The Highlights",
         "quote.full-day-event-coverage.title": "The Big One",
         "quote.full-day-event-coverage.summary":
-          "For those times when a quick one won’t cut it.",
+          "All hands on deck. The crew, the gear, and quality content that’ll last longer than just the day.",
         "quote.full-day-event-coverage.baseLabel": "The Big One",
+        "quote.real-estate-drone-photography.summary":
+          "A perspective you won’t get from the street.",
       });
       Object.keys(copy).forEach((key) => {
         if (typeof copy[key] === "string" && copy[key].includes("Fly Over")) {
