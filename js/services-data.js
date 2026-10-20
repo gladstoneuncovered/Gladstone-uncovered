@@ -24,7 +24,7 @@ window.GLADSTONE_SERVICES = [
     href: "/services/drone-inspections",
   },
   {
-    title: "The Highlights",
+    title: "Highlights",
     price: "Starting at $395",
     description: [
       "Let them see what they missed. A two-person crew films the people, energy and atmosphere from the ground and the air, then edits it into one cinematic, social media ready highlight reel.",

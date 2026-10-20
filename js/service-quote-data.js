@@ -486,11 +486,11 @@ window.GLADSTONE_SERVICE_QUOTES = [
   },
   {
     id: "event-highlights",
-    title: "The Highlights",
+    title: "Highlights",
     summary:
       "Let them see what they missed.",
     teaser: "2 hours · 2-person crew · Ground + aerial",
-    baseLabel: "The Highlights",
+    baseLabel: "Highlights",
     baseDetail: "Up to 2 hours",
     overview: [
       "Up to 2 hours of event coverage",
@@ -660,7 +660,7 @@ window.GLADSTONE_SERVICE_QUOTES = [
             id: "coverage",
             label: "Coverage & Final Video",
             detail:
-              "I understand The Highlights captures selected moments rather than continuous event coverage. The standard package includes up to 2 hours of coverage, one dedicated drone flight and one professionally edited 30–90 second highlight. Specific people, moments or shots cannot be guaranteed unless agreed beforehand.",
+              "I understand Highlights captures selected moments rather than continuous event coverage. The standard package includes up to 2 hours of coverage, one dedicated drone flight and one professionally edited 30–90 second highlight. Specific people, moments or shots cannot be guaranteed unless agreed beforehand.",
           },
           {
             id: "changes",

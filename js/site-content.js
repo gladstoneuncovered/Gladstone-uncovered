@@ -199,14 +199,14 @@
         "service.aerial-video.line": "Coverage from the air.",
         "quote.aerial-video.title": "Flyover",
         "quote.aerial-video.summary": "Coverage from the air.",
-        "home.card.event-highlights.title": "The Highlights",
+        "home.card.event-highlights.title": "Highlights",
         "home.card.event-highlights.line": "Let them see what they missed.",
         "home.card.full-day-event-coverage.title": "The Big One",
         "home.card.full-day-event-coverage.line":
           "More of everything.",
         "home.card.real-estate-drone-photography.line":
           "A perspective you won’t get from the street.",
-        "service.event-highlights.title": "The Highlights",
+        "service.event-highlights.title": "Highlights",
         "service.event-highlights.line": "Let them see what they missed.",
         "service.event-highlights.note.0":
           "A two-person crew films the people, energy and atmosphere from the ground and the air, then edits it into one cinematic, social media ready highlight reel.",
@@ -217,9 +217,9 @@
           "More of everything.",
         "service.real-estate-drone-photography.line":
           "A perspective you won’t get from the street.",
-        "quote.event-highlights.title": "The Highlights",
+        "quote.event-highlights.title": "Highlights",
         "quote.event-highlights.summary": "Let them see what they missed.",
-        "quote.event-highlights.baseLabel": "The Highlights",
+        "quote.event-highlights.baseLabel": "Highlights",
         "quote.full-day-event-coverage.title": "The Big One",
         "quote.full-day-event-coverage.summary":
           "More of everything.",
