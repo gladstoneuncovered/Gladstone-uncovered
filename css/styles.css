@@ -7687,8 +7687,72 @@ body.site-apple.page-home .home-films-title {
   line-height: 1.05;
 }
 
+body.site-apple.page-home:not(.page-service) .home-films-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 0 0 0.85rem;
+}
+
+body.site-apple.page-home:not(.page-service) .home-films-title {
+  margin: 0;
+  padding: 0.35rem 0 0;
+}
+
 body.site-apple.page-home:not(.page-service) .home-films-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+body.site-apple.page-home:not(.page-service) .home-films-arrow {
+  display: grid;
+  place-items: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  padding: 0;
+  border: 0;
+  border-radius: 980px;
+  background: #1d1d1f;
+  color: #fff;
+  cursor: pointer;
+}
+
+body.site-apple.page-home:not(.page-service) .home-films-arrow:hover:not(:disabled) {
+  background: #000;
+}
+
+body.site-apple.page-home:not(.page-service) .home-films-arrow:disabled {
+  opacity: 0.28;
+  cursor: default;
+}
+
+body.site-apple.page-home:not(.page-service) .home-films-carousel {
+  min-width: 0;
+}
+
+body.site-apple.page-home:not(.page-service) .home-films-grid {
+  display: grid;
+  grid-template-columns: none;
+  grid-auto-flow: column;
+  grid-auto-columns: calc((100% - 12px) / 2.2);
+  justify-items: stretch;
+  gap: 12px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+body.site-apple.page-home:not(.page-service) .home-films-grid::-webkit-scrollbar {
   display: none;
+}
+
+body.site-apple.page-home:not(.page-service) .home-films-grid .home-film {
+  scroll-snap-align: start;
+  width: 100%;
 }
 
 body.site-apple.page-home .home-films-grid {
@@ -7753,76 +7817,6 @@ body.site-apple.page-home .home-film-price {
 body.site-apple.page-home .home-film .apple-actions {
   justify-content: center;
   margin-top: 0.85rem;
-}
-
-@media (min-width: 735px) {
-  body.site-apple.page-home:not(.page-service) .home-films-head {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: 1rem;
-    margin: 0 0 0.85rem;
-  }
-
-  body.site-apple.page-home:not(.page-service) .home-films-title {
-    margin: 0;
-    padding: 0.35rem 0 0;
-  }
-
-  body.site-apple.page-home:not(.page-service) .home-films-nav {
-    display: flex;
-    align-items: center;
-    gap: 0.45rem;
-  }
-
-  body.site-apple.page-home:not(.page-service) .home-films-arrow {
-    display: grid;
-    place-items: center;
-    width: 2.4rem;
-    height: 2.4rem;
-    padding: 0;
-    border: 0;
-    border-radius: 980px;
-    background: #1d1d1f;
-    color: #fff;
-    cursor: pointer;
-  }
-
-  body.site-apple.page-home:not(.page-service) .home-films-arrow:hover:not(:disabled) {
-    background: #000;
-  }
-
-  body.site-apple.page-home:not(.page-service) .home-films-arrow:disabled {
-    opacity: 0.28;
-    cursor: default;
-  }
-
-  body.site-apple.page-home:not(.page-service) .home-films-carousel {
-    min-width: 0;
-  }
-
-  body.site-apple.page-home:not(.page-service) .home-films-grid {
-    display: grid;
-    grid-template-columns: none;
-    grid-auto-flow: column;
-    grid-auto-columns: calc((100% - 12px) / 2.2);
-    justify-items: stretch;
-    gap: 12px;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scroll-behavior: smooth;
-    scrollbar-width: none;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  body.site-apple.page-home:not(.page-service) .home-films-grid::-webkit-scrollbar {
-    display: none;
-  }
-
-  body.site-apple.page-home:not(.page-service) .home-films-grid .home-film {
-    scroll-snap-align: start;
-    width: 100%;
-  }
 }
 
 body.site-apple .showreel.apple-tv {
@@ -9106,68 +9100,17 @@ body.site-apple .social a:hover {
 }
 
 @media (max-width: 734px) {
-  body.site-apple.page-home:not(.page-service) {
-    overflow-x: clip;
-  }
-
-  body.site-apple.page-home:not(.page-service) .home-films {
-    --home-film-stick-top: 4.25rem;
-    --home-film-avail: calc(100svh - var(--home-film-stick-top) - 0.75rem);
-    --home-film-stick-height: min(var(--home-film-avail), calc((100vw - 24px) * 16 / 9));
-    padding-bottom: 1.25rem;
-  }
-
   body.site-apple.page-home:not(.page-service) .home-films-grid {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0;
-    container-type: inline-size;
-    --home-film-stick-height: min(var(--home-film-avail), calc(100cqw * 16 / 9));
+    grid-auto-columns: 82%;
   }
 
   body.site-apple.page-home:not(.page-service) .home-films-grid .home-film {
-    position: -webkit-sticky;
-    position: sticky;
-    top: var(--home-film-stick-top);
-    z-index: 1;
-    width: 100%;
-    height: var(--home-film-stick-height);
-    max-height: var(--home-film-avail);
-    min-height: 0;
-    aspect-ratio: auto;
-    margin: 0 0 12px;
-    flex: 0 0 auto;
-  }
-
-  body.site-apple.page-home:not(.page-service) .home-films-grid .home-film-video,
-  body.site-apple.page-home:not(.page-service) .home-films-grid .home-film-video.is-bottom {
-    object-fit: cover;
-    object-position: center;
-  }
-
-  body.site-apple.page-home:not(.page-service) .home-films-grid .home-film::after {
-    background: linear-gradient(
-      180deg,
-      rgba(0, 0, 0, 0.04) 28%,
-      rgba(0, 0, 0, 0.24) 54%,
-      rgba(0, 0, 0, 0.88) 100%
-    );
-  }
-
-  body.site-apple.page-home:not(.page-service) .home-films-grid .home-film .apple-actions {
-    gap: 0.65rem;
-  }
-
-  body.site-apple.page-home:not(.page-service) .home-films-grid .home-film:nth-child(1) { z-index: 1; }
-  body.site-apple.page-home:not(.page-service) .home-films-grid .home-film:nth-child(2) { z-index: 2; }
-  body.site-apple.page-home:not(.page-service) .home-films-grid .home-film:nth-child(3) { z-index: 3; }
-  body.site-apple.page-home:not(.page-service) .home-films-grid .home-film:nth-child(4) { z-index: 4; }
-  body.site-apple.page-home:not(.page-service) .home-films-grid .home-film:nth-child(5) { z-index: 5; }
-  body.site-apple.page-home:not(.page-service) .home-films-grid .home-film:nth-child(6) { z-index: 6; }
-
-  body.site-apple.page-home:not(.page-service) .home-films-grid .home-film:last-child {
-    margin-bottom: 0;
+    position: relative;
+    top: auto;
+    height: auto;
+    max-height: none;
+    aspect-ratio: 4 / 5;
+    margin: 0;
   }
 
   body.site-apple.page-home:not(.page-service) .slim-quote {
@@ -9179,18 +9122,3 @@ body.site-apple .social a:hover {
   }
 }
 
-@media (max-width: 734px) and (prefers-reduced-motion: reduce) {
-  body.site-apple.page-home:not(.page-service) .home-films-grid {
-    gap: 12px;
-  }
-
-  body.site-apple.page-home:not(.page-service) .home-films-grid .home-film {
-    position: relative;
-    top: auto;
-    z-index: auto;
-    height: var(--home-film-stick-height);
-    max-height: var(--home-film-avail);
-    aspect-ratio: auto;
-    margin: 0;
-  }
-}

@@ -381,7 +381,7 @@
       }
     };
 
-    const stickyLayout = () => stickyFilmsQuery.matches && stickyCards.length > 0 && !reducedMotion;
+    const stickyLayout = () => false;
 
     const setStickTop = () => {
       if (!servicesBlock) return;
@@ -562,7 +562,7 @@
       });
     };
 
-    if (stickyCards.length) {
+    if (stickyLayout()) {
       setStickTop();
       window.addEventListener("scroll", onFilmScroll, { passive: true });
       window.addEventListener("resize", onFilmScroll);
