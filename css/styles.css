@@ -7768,6 +7768,13 @@ body.site-apple.page-home .home-film {
   box-shadow: none;
 }
 
+body.site-apple.page-home .home-film-video.is-lift {
+  object-position: center bottom;
+  inset: auto 0 0 0;
+  width: 100%;
+  height: 148%;
+}
+
 body.site-apple.page-home .home-film::after {
   background: linear-gradient(
     180deg,
