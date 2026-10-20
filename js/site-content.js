@@ -32,11 +32,11 @@
     return value;
   }
 
-  function mediaUrl(file, version) {
-    const base = String(cfg.supabaseUrl || "").replace(/\/$/, "");
-    if (!base) return "";
-    const url = `${base}/storage/v1/object/public/Service-media/${encodeURIComponent(file)}`;
-    return version ? `${url}?v=${encodeURIComponent(version)}` : url;
+  function mediaUrl(file) {
+    const mapped = {
+      "hero.mp4": "/assets/hero.mp4",
+    };
+    return mapped[file.toLowerCase()] || `/assets/films/${encodeURIComponent(file)}`;
   }
 
   function priceNote(cents, previous) {
@@ -153,7 +153,7 @@
     document.querySelectorAll("[data-video]").forEach((video) => {
       const key = video.getAttribute("data-video");
       const file = filename(text(key));
-      const url = file ? mediaUrl(file, versions[key]) : "";
+      const url = file ? mediaUrl(file) : "";
       if (!url) return;
       if (video.classList.contains("home-film-video")) {
         video.dataset.filmSrc = url;

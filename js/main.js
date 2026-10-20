@@ -351,6 +351,7 @@
       : [];
     let hovered = null;
     let stickyActive = null;
+    let filmActive = null;
     let filmFrame = 0;
 
     const filmSrc = (video) => {
@@ -434,9 +435,17 @@
     };
 
     const shouldPrime = (card, active) => {
-      if (!stickyLayout()) return true;
-      if (!active) return card === stickyCards[0] || card === stickyCards[1];
+      if (!stickyLayout()) return card === active;
+      if (!active) return card === stickyCards[0];
       return card === active || card === nextStickyCard(active);
+    };
+
+    const showPoster = (video) => {
+      try {
+        if (video.currentTime > 0.05) video.currentTime = 0;
+      } catch {
+        /* currentTime can throw before the video is ready */
+      }
     };
 
     const readyFilm = (video) => {
@@ -451,51 +460,54 @@
       const src = filmSrc(video);
       if (!src) return;
       readyFilm(video);
+      video.loop = false;
+      video.removeAttribute("loop");
+      if (!sameFilm(video, src)) {
+        const frame = new URL(src);
+        frame.hash = "t=0.001";
+        video.src = frame.href;
+      }
       if (!eager) {
         video.preload = "metadata";
         if (!video.paused) video.pause();
         return;
       }
       video.preload = "auto";
-      if (!sameFilm(video, src)) {
-        const frame = new URL(src);
-        frame.hash = "t=0.001";
-        video.src = frame.href;
-      }
-      if (video.dataset.frameReady === "1" || video.dataset.framePending === "1" || reducedMotion) return;
-      video.dataset.framePending = "1";
-      const card = video.closest(".home-film");
-      const paint = () => {
-        if (video.dataset.frameReady === "1") return;
-        if (playingCard() === card) {
-          video.dataset.frameReady = "1";
-          return;
-        }
-        const pending = video.play();
-        if (!pending || typeof pending.then !== "function") return;
-        pending
-          .then(() => {
-            if (playingCard() !== card) video.pause();
-            video.dataset.frameReady = "1";
-          })
-          .catch(() => {});
-      };
-      if (video.readyState >= 2) paint();
-      else video.addEventListener("loadeddata", paint, { once: true });
     };
 
     const syncFilms = () => {
       const active = playingCard();
+      if (filmActive !== active) {
+        if (filmActive) {
+          const previous = filmActive.querySelector(".home-film-video");
+          if (previous) {
+            delete previous.dataset.playedOut;
+            if (!previous.paused) previous.pause();
+            showPoster(previous);
+          }
+        }
+        if (active) {
+          const next = active.querySelector(".home-film-video");
+          if (next) {
+            delete next.dataset.playedOut;
+            showPoster(next);
+          }
+        }
+        filmActive = active;
+      }
       filmCards.forEach((card) => {
         const video = card.querySelector(".home-film-video");
         if (!video) return;
         const src = filmSrc(video);
-        const eager = shouldPrime(card, stickyLayout() ? active : card);
-        primeFilm(video, eager);
-        const playing = Boolean(src) && !reducedMotion && active === card;
+        primeFilm(video, shouldPrime(card, active));
+        const playing =
+          Boolean(src) &&
+          !reducedMotion &&
+          active === card &&
+          video.dataset.playedOut !== "1";
         card.classList.toggle("is-active", playing);
         if (!playing) {
-          if (video.dataset.frameReady === "1") video.pause();
+          if (!video.paused) video.pause();
           return;
         }
         readyFilm(video);
@@ -506,6 +518,18 @@
         }
       });
     };
+
+    filmCards.forEach((card) => {
+      const video = card.querySelector(".home-film-video");
+      if (!video) return;
+      video.loop = false;
+      video.removeAttribute("loop");
+      video.addEventListener("ended", () => {
+        video.dataset.playedOut = "1";
+        video.pause();
+        card.classList.remove("is-active");
+      });
+    });
 
     if (canPoint) {
       filmCards.forEach((card) => {
