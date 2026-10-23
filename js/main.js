@@ -20,7 +20,10 @@
 
   const header = document.querySelector(".site-header");
   const hero = document.querySelector(".hero");
-  if (header) {
+  const homeOnlyHeader =
+    document.body.classList.contains("page-home") &&
+    !document.body.classList.contains("page-service");
+  if (header && homeOnlyHeader) {
     let lastY = window.scrollY;
     let shown = false;
 

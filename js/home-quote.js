@@ -144,7 +144,17 @@
   }
 
   function openQuotePicker() {
-    if (!quoteSheet || !quoteSheetSlot || lockedId) return;
+    if (!quoteSheet || !quoteSheetSlot) return;
+    if (lockedId) {
+      if (quoteSheet.open) return;
+      cardHost = quoteSheet;
+      document.body.classList.add("has-card-quote");
+      quoteSheetSlot.hidden = false;
+      quoteSheetSlot.appendChild(root);
+      render();
+      if (typeof quoteSheet.showModal === "function") quoteSheet.showModal();
+      return;
+    }
     if (cardHost === quoteSheet && quoteSheet.open) return;
     if (cardHost) closeCardQuote({ silent: true });
     resetBuilder();
@@ -714,7 +724,6 @@
   function filmAsk(step) {
     if (!step) return "Tell us who you are, what you need, when you need it, and where we should be.";
     if (step.acknowledge) return "A few things to confirm";
-    if (step.type === "multi" && !step.required) return step.title;
     return step.hint || step.title;
   }
 
@@ -1196,7 +1205,7 @@
     if (quoteBtn) {
       event.preventDefault();
       event.stopPropagation();
-      openCardQuote(quoteBtn.closest(".home-film"), quoteBtn.getAttribute("data-card-quote"));
+      openCardQuote(quoteBtn.closest(".home-film") || quoteBtn, quoteBtn.getAttribute("data-card-quote"));
       return;
     }
     const book = event.target.closest("[data-book]");
@@ -1352,7 +1361,7 @@
     });
   }
 
-  render();
+  if (!(isServicePage() && quoteSheet && !quoteSheet.open)) render();
   const openQuoteFromHash = () => {
     if (window.location.hash === "#quote") openQuotePicker();
   };

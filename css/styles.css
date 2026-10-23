@@ -5945,6 +5945,8 @@ body.page-home .apple-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  border: 0;
+  cursor: pointer;
   min-width: 6.6rem;
   padding: 0.62rem 1.05rem;
   border-radius: 980px;
@@ -7501,6 +7503,16 @@ body.site-apple.page-home:not(.page-service) .site-header.is-ready {
   visibility: visible;
 }
 
+body.site-apple.page-service .site-header,
+body.site-apple:not(.page-home) .site-header {
+  position: sticky;
+  top: 0;
+  transform: none;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
 @media (prefers-reduced-motion: reduce) {
   body.site-apple.page-home:not(.page-service) .site-header {
     transition: opacity 0.15s ease, visibility 0.15s ease;
@@ -7597,6 +7609,8 @@ body.site-apple .site-kicker {
 
 body.site-apple .btn,
 body.site-apple .apple-btn {
+  border: 0;
+  cursor: pointer;
   min-height: 2.75rem;
   padding: 0.75rem 1.3rem;
   border-radius: 980px;
@@ -8044,6 +8058,10 @@ body.site-apple .quote-sheet {
   box-shadow: 0 24px 64px rgba(0, 0, 0, 0.18);
   overflow: hidden;
   transform: translate(-50%, -50%);
+}
+
+body.site-apple .quote-sheet:not([open]) {
+  display: none;
 }
 
 body.site-apple .quote-sheet[open] {
@@ -8992,10 +9010,11 @@ body.site-apple.page-service .service-hero--invite + .slim-quote {
 }
 
 body.site-apple.page-home.page-service .apple-duo.apple-duo--service {
-  grid-template-columns: minmax(10rem, 0.7fr) minmax(0, 1.05fr) minmax(16rem, 0.9fr);
-  grid-template-areas: "title copy points";
+  grid-template-columns: minmax(0, 1.15fr) minmax(16rem, 0.85fr);
+  grid-template-areas: "lead included";
+  align-items: start;
   column-gap: clamp(2rem, 4vw, 4.5rem);
-  row-gap: 1.5rem;
+  row-gap: clamp(1.75rem, 3vw, 2.5rem);
   margin-top: 0;
   padding: clamp(1.5rem, 3.5vw, 2.5rem) 0 clamp(2.5rem, 5vw, 4rem);
   border-radius: 0;
@@ -9080,6 +9099,57 @@ body.site-apple.page-service .service-points li::before {
   line-height: 1;
 }
 
+body.site-apple.page-service .service-lead {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  grid-area: lead;
+  min-width: 0;
+  max-width: 42rem;
+}
+
+body.site-apple.page-service .service-lead h2,
+body.site-apple.page-service .service-lead .service-copy {
+  grid-area: auto;
+}
+
+body.site-apple.page-service .service-lead .service-copy {
+  max-width: none;
+}
+
+body.site-apple.page-service .service-included {
+  grid-area: included;
+  min-width: 0;
+}
+
+body.site-apple.page-service .service-included h3 {
+  margin: 0 0 0.35rem;
+  color: var(--site-ink);
+  font-family: var(--font-heading);
+  font-size: clamp(1.35rem, 2vw, 1.7rem);
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  line-height: 1.15;
+}
+
+body.site-apple.page-service .service-included .service-points {
+  margin: 0;
+}
+
+body.site-apple.page-service .service-disclaimer {
+  max-width: 40rem;
+  margin: 0.85rem 0 0;
+  color: var(--site-muted);
+  font-size: 0.92rem;
+  letter-spacing: -0.011em;
+  line-height: 1.45;
+}
+
+body.site-apple.page-home.page-service .apple-duo.apple-duo--service.apple-duo--included {
+  grid-template-columns: minmax(0, 40rem);
+  grid-template-areas: "included";
+}
+
 body.site-apple .slim-quote .slim-quote-panel--enquire {
   max-width: 40rem;
 }
@@ -9114,7 +9184,7 @@ body.site-apple .slim-quote-panel--enquire .slim-send:hover {
   background: #000;
 }
 
-body.site-apple.page-service .slim-quote {
+body.site-apple.page-service .slim-quote:not(.quote-sheet-slot) {
   margin-bottom: 0;
   padding: clamp(1.5rem, 3.5vw, 2.75rem) 0 clamp(2.25rem, 4.5vw, 3.5rem);
   border-radius: 0;
@@ -9229,7 +9299,7 @@ body.site-apple.page-service .site-footer {
 }
 
 @media (max-width: 560px) {
-  body.site-apple.page-service .slim-quote {
+  body.site-apple.page-service .slim-quote:not(.quote-sheet-slot) {
     padding-right: 0;
     padding-left: 0;
   }
@@ -9550,10 +9620,10 @@ body.site-apple .social a:hover {
 
   body.site-apple.page-service .apple-duo--service,
   body.site-apple.page-home.page-service .apple-duo.apple-duo--service {
+    grid-template-columns: minmax(0, 1fr);
     grid-template-areas:
-      "title"
-      "copy"
-      "points";
+      "lead"
+      "included";
   }
 
   body.site-apple.page-home .apple-duo--about {
